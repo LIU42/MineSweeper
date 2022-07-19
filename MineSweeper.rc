@@ -1,0 +1,115 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// ����(���壬�й�) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDB_PNG1                PNG                     "Images\\background.png"
+
+IDB_PNG2                PNG                     "Images\\block.png"
+
+IDB_PNG3                PNG                     "Images\\cover.png"
+
+IDB_PNG4                PNG                     "Images\\mine.png"
+
+IDB_PNG5                PNG                     "Images\\mine_error.png"
+
+IDB_PNG6                PNG                     "Images\\flag.png"
+
+IDB_PNG7                PNG                     "Images\\error.png"
+
+IDB_PNG8                PNG                     "Images\\number_1.png"
+
+IDB_PNG9                PNG                     "Images\\number_2.png"
+
+IDB_PNG10               PNG                     "Images\\number_3.png"
+
+IDB_PNG11               PNG                     "Images\\number_4.png"
+
+IDB_PNG12               PNG                     "Images\\number_5.png"
+
+IDB_PNG13               PNG                     "Images\\number_6.png"
+
+IDB_PNG14               PNG                     "Images\\number_7.png"
+
+IDB_PNG15               PNG                     "Images\\number_8.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Font
+//
+
+IDR_FONT1               FONT                    "Fonts\\consola.ttf"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "Images\\icon.ico"
+
+#endif    // ����(���壬�й�) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
