@@ -1,0 +1,64 @@
+﻿#ifndef __CONFIG_H__
+#define __CONFIG_H__
+
+#define WINDOW_TITLE "Mine Sweeper"
+#define GAME_FPS 10
+#define NUMBER_COUNT 8
+#define CLOCK_INTERVAL 1000
+
+#define TABLE_ROWS_EASY 10
+#define TABLE_COLS_EASY 10
+#define MINE_INIT_COUNT_EASY 10
+
+#define TABLE_ROWS_NORMAL 15
+#define TABLE_COLS_NORMAL 15
+#define MINE_INIT_COUNT_NORMAL 30
+
+#define TABLE_ROWS_HIGH 30
+#define TABLE_COLS_HIGH 20
+#define MINE_INIT_COUNT_HIGH 100
+
+#define TABLE_ROWS_MAX 40
+#define TABLE_COLS_MAX 25
+#define MINE_INIT_COUNT_MAX 1000
+#define EMPTY_COUNT_MAX 1000
+
+#define BLOCK_WIDTH 32
+#define MARGIN_X 12
+#define MARGIN_Y 78
+#define BORDER 6
+#define BLOCK_BORDER 1
+
+#define COLOR_WHITE 0xFFFFFFFF
+#define COLOR_GRAY 0xFF606060
+#define COLOR_BLACK 0xFF353535
+
+#define INFO_POSITION_TOP 53
+#define INFO_MAX_LEN 30
+#define INFO_WIDTH 120
+
+#define PLAYING 0
+#define PAUSE 1
+#define OVER 2
+#define WIN 3
+#define EXIT 4
+
+#define NULL 0
+#define MINE 1
+#define NUMBER 2
+
+#define EASY_LEVEL 0
+#define NORMAL_LEVEL 1
+#define HIGH_LEVEL 2
+#define CUSTOM_LEVEL 3
+
+#define LEVEL_COUNT 3
+#define RECORD_COUNT 3
+
+#define RECORD_LABEL_WIDTH 160
+#define RECORD_LABEL_HEIGHT 20
+#define RECORD_LABEL_LEFT 50
+#define RECORD_LABEL_TOP 90
+#define RECORD_LABEL_LEFT_STEP 200
+#define RECORD_LABEL_TOP_STEP 45
+#endif
