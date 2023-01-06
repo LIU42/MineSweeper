@@ -1,14 +1,36 @@
 ﻿#include "minesweeper.h"
 #include "ui_minesweeper.h"
 
-MainGame::MainGame(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainGame), about(this), custom(this), success(this), record(this)
+MainGame::MainGame(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainGame)
 {
     ui->setupUi(this);
+	about = new AboutDialog(this);
+	custom = new CustomDialog(this);
+	success = new SuccessDialog(this);
+	record = new RecordDialog(this);
 }
 
 MainGame::~MainGame()
 {
     delete ui;
+	delete about;
+	delete custom;
+	delete success;
+	delete record;
+}
+
+void MainGame::init()
+{
+	srand(QDateTime::currentDateTime().toMSecsSinceEpoch());
+
+	loadImage();
+	loadAudio();
+	initColor();
+	setInterval();
+	connectTimer();
+	connectAction();
+	startTimer();
+	setEasyLevel();
 }
 
 void MainGame::loadImage()
@@ -20,7 +42,7 @@ void MainGame::loadImage()
     image.mineError.load(":/Images/mine_error.png");
     image.flag.load(":/Images/flag.png");
 
-    static char path[INFO_MAX_LEN];
+	static char path[INFO_LENGTH];
 
     for (int i = 0; i < NUMBER_COUNT; i++)
     {
@@ -38,53 +60,53 @@ void MainGame::loadAudio()
 
 void MainGame::setEasyLevel()
 {
-    level = EASY_LEVEL;
-    tableRows = TABLE_ROWS_EASY;
-    tableCols = TABLE_COLS_EASY;
-    mineInitCount = MINE_INIT_COUNT_EASY;
+	level = EASY;
+	tableRows = (int)EasyLevel::ROWS;
+	tableCols = (int)EasyLevel::COLS;
+	mineInitCount = (int)EasyLevel::MINE_INIT_COUNT;
     resizeWindow();
-    initGame();
+	restart();
 }
 
 void MainGame::setNormalLevel()
 {
-    level = NORMAL_LEVEL;
-    tableRows = TABLE_ROWS_NORMAL;
-    tableCols = TABLE_COLS_NORMAL;
-    mineInitCount = MINE_INIT_COUNT_NORMAL;
+	level = NORMAL;
+	tableRows = (int)NormalLevel::ROWS;
+	tableCols = (int)NormalLevel::COLS;
+	mineInitCount = (int)NormalLevel::MINE_INIT_COUNT;
     resizeWindow();
-    initGame();
+	restart();
 }
 
 void MainGame::setHighLevel()
 {
-    level = HIGH_LEVEL;
-    tableRows = TABLE_ROWS_HIGH;
-    tableCols = TABLE_COLS_HIGH;
-    mineInitCount = MINE_INIT_COUNT_HIGH;
+	level = HIGH;
+	tableRows = (int)HighLevel::ROWS;
+	tableCols = (int)HighLevel::COLS;
+	mineInitCount = (int)HighLevel::MINE_INIT_COUNT;
     resizeWindow();
-    initGame();
+	restart();
 }
 
 void MainGame::setCustomLevel()
 {
-    custom.initDialog();
+	custom->openDialog();
 
-	if (custom.getIfNeedSet())
+	if (custom->getIsNeedSet())
     {
-        level = CUSTOM_LEVEL;
-        tableRows = custom.getInputRows();
-        tableCols = custom.getInputCols();
-        mineInitCount = custom.getInputMineCount();
+		level = CUSTOM;
+		tableRows = custom->getInputRows();
+		tableCols = custom->getInputCols();
+		mineInitCount = custom->getInputMineCount();
         resizeWindow();
-        initGame();
-    }
+		restart();
+	}
 }
 
 void MainGame::resizeWindow()
 {
-    tableWidth = tableRows * BLOCK_WIDTH;
-    tableHeight = tableCols * BLOCK_WIDTH;
+	tableWidth = tableRows * BLOCK_SIZE;
+	tableHeight = tableCols * BLOCK_SIZE;
     screenWidth = MARGIN_X * 2 + tableWidth;
     screenHeight = MARGIN_X + MARGIN_Y + tableHeight;
 
@@ -104,7 +126,7 @@ void MainGame::mainInterval()
 
 void MainGame::clockCallback()
 {
-    if (status == PLAYING) { timeSec += 1; }
+	if (status == PLAYING) { timeDuring += 1; }
 }
 
 void MainGame::setInterval()
@@ -125,10 +147,10 @@ void MainGame::connectAction()
     connect(ui->actionNormal, &QAction::triggered, this, &MainGame::setNormalLevel);
     connect(ui->actionHigh, &QAction::triggered, this, &MainGame::setHighLevel);
     connect(ui->actionCustom, &QAction::triggered, this, &MainGame::setCustomLevel);
-    connect(ui->actionPause, &QAction::triggered, this, &MainGame::setPauseStatus);
-    connect(ui->actionRestart, &QAction::triggered, this, &MainGame::initGame);
-    connect(ui->actionRecord, &QAction::triggered, &record, &RecordDialog::initDialog);
-    connect(ui->actionAbout, &QAction::triggered, &about, &AboutDialog::exec);
+	connect(ui->actionPause, &QAction::triggered, this, &MainGame::setPause);
+	connect(ui->actionRestart, &QAction::triggered, this, &MainGame::restart);
+	connect(ui->actionRecord, &QAction::triggered, record, &RecordDialog::openDialog);
+	connect(ui->actionAbout, &QAction::triggered, about, &AboutDialog::exec);
 }
 
 void MainGame::startTimer()
@@ -137,7 +159,7 @@ void MainGame::startTimer()
     timer.clock.start();
 }
 
-void MainGame::initGame()
+void MainGame::restart()
 {
     audio.click.stop();
     audio.click.play();
@@ -146,53 +168,55 @@ void MainGame::initGame()
     {
         for (int j = 0; j < tableCols; j++)
         {
-			blockData[i][j].type = NULL;
-			blockData[i][j].number = 0;
-			blockData[i][j].isCovered = true;
-			blockData[i][j].isMarked = false;
-			blockData[i][j].isTouched = false;
-			blockData[i][j].isError = false;
+			blocks[i][j].type = EMPTY;
+			blocks[i][j].number = 0;
+			blocks[i][j].isCovered = true;
+			blocks[i][j].isMarked = false;
+			blocks[i][j].isTouched = false;
+			blocks[i][j].isError = false;
         }
     }
     status = PLAYING;
     flagCount = mineInitCount;
-    timeSec = 0;
+	timeDuring = 0;
     isCracked = false;
-    ifHaveCracked = false;
+	isHaveCracked = false;
     addMine();
     addNumber();
 }
 
 void MainGame::initColor()
 {
-    color.white.setRgb(COLOR_WHITE);
-    color.gray.setRgb(COLOR_GRAY);
-    color.black.setRgb(COLOR_BLACK);
+	color.white.setRgb(WHITE);
+	color.black.setRgb(BLACK);
+	color.gray.setRgb(GRAY);
 }
 
 void MainGame::addMine()
 {
-	static QVector <int> numberList;
+	static QVector <int> numbers;
 
-	mineList.clear();
+	mines.clear();
 
-	for (int i = 0; i < TABLE_ROWS_MAX * TABLE_COLS_MAX; i++)
+	for (int i = 0; i < ROWS_MAX * COLS_MAX; i++)
 	{
-		numberList.append(i);
+		numbers.append(i);
 	}
 	for (int i = 0; i < tableRows * tableCols; i++)
 	{
-		qSwap(numberList[i], numberList[rand() % (tableRows * tableCols)]);
+		qSwap(numbers[i], numbers[rand() % (tableRows * tableCols)]);
 	}
 	for (int i = 0; i < mineInitCount; i++)
 	{
-		int x = numberList[i] % tableRows;
-		int y = numberList[i] / tableRows;
+		static QPoint temp;
 
-		blockData[x][y].type = MINE;
-		mineList.append({ x, y });
+		temp.setX(numbers[i] % tableRows);
+		temp.setY(numbers[i] / tableRows);
+
+		blocks[temp.x()][temp.y()].type = MINE;
+		mines.append(temp);
 	}
-	numberList.clear();
+	numbers.clear();
 }
 
 void MainGame::addNumber()
@@ -203,13 +227,13 @@ void MainGame::addNumber()
         {
             for (int sideY = -1; sideY <= 1; sideY++)
             {
-                int x = mineList[i].x + sideX;
-                int y = mineList[i].y + sideY;
+				int x = mines[i].x() + sideX;
+				int y = mines[i].y() + sideY;
 
-				if (x >= 0 && x < tableRows && y >= 0 && y < tableCols && blockData[x][y].type != MINE)
+				if (x >= 0 && x < tableRows && y >= 0 && y < tableCols && blocks[x][y].type != MINE)
                 {
-					blockData[x][y].type = NUMBER;
-					blockData[x][y].number += 1;
+					blocks[x][y].type = NUMBER;
+					blocks[x][y].number += 1;
                 }
             }
         }
@@ -218,15 +242,10 @@ void MainGame::addNumber()
 
 void MainGame::setRecord()
 {
-    switch (level)
-    {
-        case EASY_LEVEL: record.getRecord(success.getInputName(), timeSec, EASY_LEVEL); break;
-        case HIGH_LEVEL: record.getRecord(success.getInputName(), timeSec, HIGH_LEVEL); break;
-		case NORMAL_LEVEL: record.getRecord(success.getInputName(), timeSec, NORMAL_LEVEL); break;
-    }
+	record->getRecord(success->getInputName(), timeDuring, level);
 }
 
-void MainGame::setPauseStatus()
+void MainGame::setPause()
 {
     if (status == PLAYING && !isCracked)
     {
@@ -240,7 +259,7 @@ void MainGame::gameoverWin()
     {
         for (int y = 0; y < tableCols; y++)
         {
-			if (blockData[x][y].type != MINE && blockData[x][y].isCovered)
+			if (blocks[x][y].type != MINE && blocks[x][y].isCovered)
             {
 				return;
             }
@@ -250,10 +269,10 @@ void MainGame::gameoverWin()
 	audio.win.play();
 	status = WIN;
 
-	if (level != CUSTOM_LEVEL && !ifHaveCracked)
+	if (level != CUSTOM && !isHaveCracked)
 	{
-		success.initDialog();
-		if (success.getIfNeedSave()) { setRecord(); }
+		success->openDialog();
+		if (success->getIsNeedSave()) { setRecord(); }
 	}
 }
 
@@ -266,51 +285,56 @@ void MainGame::gameoverLose(int x, int y)
     {
         for (int y = 0; y < tableCols; y++)
         {
-			if (blockData[x][y].type == MINE && !blockData[x][y].isMarked)
+			if (blocks[x][y].type == MINE && !blocks[x][y].isMarked)
             {
-				blockData[x][y].isCovered = false;
+				blocks[x][y].isCovered = false;
             }
-			else if (blockData[x][y].type != MINE && blockData[x][y].isMarked)
+			else if (blocks[x][y].type != MINE && blocks[x][y].isMarked)
             {
-				blockData[x][y].isError = true;
+				blocks[x][y].isError = true;
             }
         }
     }
-	blockData[x][y].isTouched = true;
+	blocks[x][y].isTouched = true;
     status = OVER;
 }
 
 void MainGame::update()
 {
-	static QVector <Point> nullList;
+	static QVector <QPoint> emptys;
 
     for (int x = 0; x < tableRows; x++)
     {
         for (int y = 0; y < tableCols; y++)
         {
-			if (blockData[x][y].type == NULL && !blockData[x][y].isCovered)
+			if (blocks[x][y].type == EMPTY && !blocks[x][y].isCovered)
             {
-				nullList.append({ x, y });
+				static QPoint temp;
+
+				temp.setX(x);
+				temp.setY(y);
+
+				emptys.append(temp);
             }
         }
     }
-	for (int i = 0; i < nullList.size(); i++)
+	for (int i = 0; i < emptys.size(); i++)
     {
         for (int sideX = -1; sideX <= 1; sideX++)
         {
             for (int sideY = -1; sideY <= 1; sideY++)
             {
-				int x = nullList[i].x + sideX;
-				int y = nullList[i].y + sideY;
+				int x = emptys[i].x() + sideX;
+				int y = emptys[i].y() + sideY;
 
-				if (x >= 0 && x < tableRows && y >= 0 && y < tableCols && !blockData[x][y].isMarked)
+				if (x >= 0 && x < tableRows && y >= 0 && y < tableCols && !blocks[x][y].isMarked)
                 {
-					blockData[x][y].isCovered = false;
+					blocks[x][y].isCovered = false;
                 }
             }
         }
     }
-	nullList.clear();
+	emptys.clear();
 }
 
 void MainGame::mousePressEvent(QMouseEvent* event)
@@ -323,39 +347,39 @@ void MainGame::mousePressEvent(QMouseEvent* event)
         {
             mouse = event->pos();
 
-            if (mouse.x() >= MARGIN_X && mouse.x() <= screenWidth - MARGIN_X && mouse.y() >= MARGIN_Y && mouse.y() <= screenHeight - MARGIN_X)
-            {
-                int x = ((mouse.x() - MARGIN_X) / BLOCK_WIDTH);
-                int y = ((mouse.y() - MARGIN_Y) / BLOCK_WIDTH);
+			if (mouse.x() < MARGIN_X || mouse.x() > screenWidth - MARGIN_X) { return; }
+			if (mouse.y() < MARGIN_Y || mouse.y() > screenHeight - MARGIN_X) { return; }
 
-				if (clicked == Qt::LeftButton && blockData[x][y].isCovered && !blockData[x][y].isMarked)
-                {
-					if (blockData[x][y].type != MINE)
-                    {
-                        audio.click.stop();
-                        audio.click.play();
-                    }
-                    else { gameoverLose(x, y); }
+			int x = ((mouse.x() - MARGIN_X) / BLOCK_SIZE);
+			int y = ((mouse.y() - MARGIN_Y) / BLOCK_SIZE);
 
-					blockData[x][y].isCovered = false;
-                }
-				else if (clicked == Qt::RightButton && blockData[x][y].isCovered)
-                {
-                    audio.click.stop();
-                    audio.click.play();
+			if (clicked == Qt::LeftButton && blocks[x][y].isCovered && !blocks[x][y].isMarked)
+			{
+				if (blocks[x][y].type != MINE)
+				{
+					audio.click.stop();
+					audio.click.play();
+				}
+				else { gameoverLose(x, y); }
 
-					if (!blockData[x][y].isMarked)
-                    {
-						blockData[x][y].isMarked = true;
-                        flagCount -= 1;
-                    }
-					else if (blockData[x][y].isMarked)
-                    {
-						blockData[x][y].isMarked = false;
-                        flagCount += 1;
-                    }
-                }
-            }
+				blocks[x][y].isCovered = false;
+			}
+			else if (clicked == Qt::RightButton && blocks[x][y].isCovered)
+			{
+				audio.click.stop();
+				audio.click.play();
+
+				if (!blocks[x][y].isMarked)
+				{
+					blocks[x][y].isMarked = true;
+					flagCount -= 1;
+				}
+				else if (blocks[x][y].isMarked)
+				{
+					blocks[x][y].isMarked = false;
+					flagCount += 1;
+				}
+			}
         }
         else if (status == PAUSE)
         {
@@ -363,7 +387,7 @@ void MainGame::mousePressEvent(QMouseEvent* event)
             audio.click.play();
             status = PLAYING;
         }
-        else { initGame(); }
+		else { restart(); }
     }
 }
 
@@ -372,10 +396,10 @@ void MainGame::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_Z && status == PLAYING)
     {
         isCracked = true;
-        ifHaveCracked = true;
+		isHaveCracked = true;
     }
-    if (event->key() == Qt::Key_R) { initGame(); }
-    if (event->key() == Qt::Key_P) { setPauseStatus(); }
+	if (event->key() == Qt::Key_R) { restart(); }
+	if (event->key() == Qt::Key_P) { setPause(); }
 }
 
 void MainGame::keyReleaseEvent(QKeyEvent *event)
@@ -409,67 +433,73 @@ void MainGame::displayBackground(QPainter& painter)
 
 void MainGame::displayBlock(QPainter& painter)
 {
-    for (int i = 0; i < tableRows; i++)
+	static QRect rect;
+
+	for (int x = 0; x < tableRows; x++)
     {
-        for (int j = 0; j < tableCols; j++)
+		for (int y = 0; y < tableCols; y++)
         {
-            int x = MARGIN_X + i * BLOCK_WIDTH;
-            int y = MARGIN_Y + j * BLOCK_WIDTH;
+			rect.setX(MARGIN_X + x * BLOCK_SIZE);
+			rect.setY(MARGIN_Y + y * BLOCK_SIZE);
+			rect.setWidth(BLOCK_SIZE);
+			rect.setHeight(BLOCK_SIZE);
 
-			if ((blockData[i][j].isCovered && !isCracked) || status == PAUSE)
+			if (status == PAUSE)
+			{
+				painter.drawPixmap(rect, image.cover);
+				continue;
+			}
+			if (blocks[x][y].isCovered && !isCracked)
             {
-                painter.drawPixmap(x, y, BLOCK_WIDTH, BLOCK_WIDTH, image.cover);
+				painter.drawPixmap(rect, image.cover);
 
-				if (blockData[i][j].isError && status != PAUSE)
+				if (blocks[x][y].isError)
                 {
-                    painter.drawPixmap(x, y, BLOCK_WIDTH, BLOCK_WIDTH, image.error);
+					painter.drawPixmap(rect, image.error);
                 }
-				else if (blockData[i][j].isMarked && status != PAUSE)
+				else if (blocks[x][y].isMarked)
                 {
-                    painter.drawPixmap(x, y, BLOCK_WIDTH, BLOCK_WIDTH, image.flag);
+					painter.drawPixmap(rect, image.flag);
                 }
+				continue;
             }
-            else
-            {
-                painter.drawPixmap(x, y, BLOCK_WIDTH, BLOCK_WIDTH, image.block);
+			painter.drawPixmap(rect, image.block);
 
-				if (blockData[i][j].type == NUMBER)
-				{
-					painter.drawPixmap(x, y, BLOCK_WIDTH, BLOCK_WIDTH, image.number[blockData[i][j].number - 1]);
-				}
-				else if (blockData[i][j].type == MINE)
-				{
-					painter.drawPixmap(x, y, BLOCK_WIDTH, BLOCK_WIDTH, (blockData[i][j].isTouched) ? image.mineError : image.mine);
-				}
-            }
+			if (blocks[x][y].type == NUMBER)
+			{
+				painter.drawPixmap(rect, image.number[blocks[x][y].number - 1]);
+			}
+			else if (blocks[x][y].type == MINE)
+			{
+				painter.drawPixmap(rect, (blocks[x][y].isTouched) ? image.mineError : image.mine);
+			}
         }
     }
 }
 
 void MainGame::displayInfo(QPainter& painter)
 {
-    static char text[INFO_MAX_LEN];
+	static char text[INFO_LENGTH];
 
     switch (status)
     {
-        case PAUSE: snprintf(text, INFO_MAX_LEN, "TIME: %d (PAUSE)", timeSec); break;
-        default: snprintf(text, INFO_MAX_LEN, "TIME: %d", timeSec); break;
+		case PAUSE: snprintf(text, INFO_LENGTH, "TIME: %d (PAUSE)", timeDuring); break;
+		default: snprintf(text, INFO_LENGTH, "TIME: %d", timeDuring); break;
     }
-	painter.drawText(MARGIN_X, INFO_POSITION_TOP, text);
+	painter.drawText(MARGIN_X, INFO_TOP, text);
 
     switch (status)
     {
-        case OVER: snprintf(text, INFO_MAX_LEN, "BOOM!"); break;
-        case WIN: snprintf(text, INFO_MAX_LEN, "Success!"); break;
-        default: snprintf(text, INFO_MAX_LEN, "MINES: %d", flagCount); break;
+		case OVER: snprintf(text, INFO_LENGTH, "BOOM!"); break;
+		case WIN: snprintf(text, INFO_LENGTH, "Success!"); break;
+		default: snprintf(text, INFO_LENGTH, "MINES: %d", flagCount); break;
     }
-	painter.drawText(screenWidth - INFO_WIDTH, INFO_POSITION_TOP, text);
+	painter.drawText(screenWidth - INFO_WIDTH, INFO_TOP, text);
 }
 
 void MainGame::paintEvent(QPaintEvent*)
 {
-    QPainter painter(this);
-
+	QPainter painter(this);
     displayBackground(painter);
     displayBlock(painter);
     displayInfo(painter);

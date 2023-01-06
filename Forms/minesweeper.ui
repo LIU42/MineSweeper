@@ -30,7 +30,7 @@
    <string>Mine Sweeper</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resource.qrc">
+   <iconset resource="../Resources/resource.qrc">
     <normaloff>:/Images/icon.ico</normaloff>:/Images/icon.ico</iconset>
   </property>
   <property name="styleSheet">
@@ -121,7 +121,7 @@
   </action>
  </widget>
  <resources>
-  <include location="resource.qrc"/>
+  <include location="../Resources/resource.qrc"/>
  </resources>
  <connections/>
 </ui>

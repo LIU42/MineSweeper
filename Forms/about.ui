@@ -71,7 +71,7 @@
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="titleLabel">
    <property name="geometry">
     <rect>
      <x>0</x>
