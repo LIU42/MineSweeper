@@ -1,7 +1,7 @@
 ﻿#include "custom.h"
 #include "ui_custom.h"
 
-CustomDialog::CustomDialog(QWidget *parent) : QDialog(parent), ui(new Ui::CustomDialog)
+CustomDialog::CustomDialog(QWidget* parent) : QDialog(parent), ui(new Ui::CustomDialog)
 {
 	ui->setupUi(this);
 	connect(ui->doneButton, &QPushButton::clicked, this, &CustomDialog::inputDone);

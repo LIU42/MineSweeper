@@ -17,10 +17,10 @@ class AboutDialog : public QDialog
 	Q_OBJECT
 
 	private:
-		Ui::AboutDialog *ui;
+		Ui::AboutDialog* ui;
 
 	public:
-		AboutDialog(QWidget *parent = nullptr);
+		AboutDialog(QWidget* parent = nullptr);
 		~AboutDialog();
 };
 #endif

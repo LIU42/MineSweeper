@@ -17,11 +17,11 @@ class SuccessDialog : public QDialog
     Q_OBJECT
 
 	private:
-        Ui::SuccessDialog *ui;
+		Ui::SuccessDialog* ui;
 		bool isNeedSave;
 
     public:
-        SuccessDialog(QWidget *parent = nullptr);
+		SuccessDialog(QWidget* parent = nullptr);
         ~SuccessDialog();
 
     public:

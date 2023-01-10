@@ -202,7 +202,7 @@ class MainGame : public QMainWindow
         void paintEvent(QPaintEvent*);
 
 	public:
-		MainGame(QWidget *parent = nullptr);
+		MainGame(QWidget* parent = nullptr);
 		~MainGame();
 
 	public:

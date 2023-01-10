@@ -41,7 +41,7 @@ class RecordDialog : public QDialog
 		static const int INFO_LENGTH = 30;
 
 	private:
-		Ui::RecordDialog *ui;
+		Ui::RecordDialog* ui;
 		QLabel* recordLabel[LEVEL_COUNT][RECORD_COUNT];
 
 	private:
@@ -52,7 +52,7 @@ class RecordDialog : public QDialog
 		static bool compare(Record&, Record&);
 
 	public:
-		RecordDialog(QWidget *parent = nullptr);
+		RecordDialog(QWidget* parent = nullptr);
 		~RecordDialog();
 
 	public:

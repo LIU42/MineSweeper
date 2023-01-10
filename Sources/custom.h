@@ -17,11 +17,11 @@ class CustomDialog : public QDialog
 	Q_OBJECT
 
 	private:
-		Ui::CustomDialog *ui;
+		Ui::CustomDialog* ui;
 		bool isNeedSet;
 
 	public:
-		CustomDialog(QWidget *parent = nullptr);
+		CustomDialog(QWidget* parent = nullptr);
 		~CustomDialog();
 
 	public:

@@ -1,7 +1,7 @@
 ﻿#include "success.h"
 #include "ui_success.h"
 
-SuccessDialog::SuccessDialog(QWidget *parent) : QDialog(parent), ui(new Ui::SuccessDialog)
+SuccessDialog::SuccessDialog(QWidget* parent) : QDialog(parent), ui(new Ui::SuccessDialog)
 {
     ui->setupUi(this);
 	connect(ui->donePushButton, &QPushButton::clicked, this, &SuccessDialog::inputDone);

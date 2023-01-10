@@ -1,7 +1,7 @@
 ﻿#include "record.h"
 #include "ui_record.h"
 
-RecordDialog::RecordDialog(QWidget *parent) : QDialog(parent), ui(new Ui::RecordDialog)
+RecordDialog::RecordDialog(QWidget* parent) : QDialog(parent), ui(new Ui::RecordDialog)
 {
 	ui->setupUi(this);
 	initDialog();

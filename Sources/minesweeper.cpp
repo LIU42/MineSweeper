@@ -1,7 +1,7 @@
 ﻿#include "minesweeper.h"
 #include "ui_minesweeper.h"
 
-MainGame::MainGame(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainGame)
+MainGame::MainGame(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainGame)
 {
     ui->setupUi(this);
 	about = new AboutDialog(this);
@@ -21,7 +21,7 @@ MainGame::~MainGame()
 
 void MainGame::init()
 {
-	srand(QDateTime::currentDateTime().toMSecsSinceEpoch());
+	srand(QDateTime::currentMSecsSinceEpoch());
 
 	loadImage();
 	loadAudio();
@@ -35,7 +35,7 @@ void MainGame::init()
 
 void MainGame::loadImage()
 {
-    image.block.load(":/Images/block.png");
+	image.block.load(":/Images/block.png");
     image.cover.load(":/Images/cover.png");
     image.error.load(":/Images/error.png");
     image.mine.load(":/Images/mine.png");
