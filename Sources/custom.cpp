@@ -4,6 +4,7 @@
 CustomDialog::CustomDialog(QWidget* parent) : QDialog(parent), ui(new Ui::CustomDialog)
 {
 	ui->setupUi(this);
+	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 	connect(ui->doneButton, &QPushButton::clicked, this, &CustomDialog::inputDone);
 }
 

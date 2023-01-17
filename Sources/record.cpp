@@ -4,6 +4,7 @@
 RecordDialog::RecordDialog(QWidget* parent) : QDialog(parent), ui(new Ui::RecordDialog)
 {
 	ui->setupUi(this);
+	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 	initDialog();
 }
 

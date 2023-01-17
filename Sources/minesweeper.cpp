@@ -42,12 +42,9 @@ void MainGame::loadImage()
     image.mineError.load(":/Images/mine_error.png");
     image.flag.load(":/Images/flag.png");
 
-	static char path[INFO_LENGTH];
-
     for (int i = 0; i < NUMBER_COUNT; i++)
     {
-        sprintf(path, ":/Images/number_%d.png", i + 1);
-        image.number[i].load(path);
+		image.number[i].load(QString(":/Images/number_%1.png").arg(i + 1));
     }
 }
 
@@ -119,9 +116,9 @@ void MainGame::mainInterval()
     if (status == PLAYING)
     {
         MainGame::gameoverWin();
-        MainGame::update();
+		MainGame::autoUncover();
     }
-    QWidget::update();
+	QWidget::update();
 }
 
 void MainGame::clockCallback()
@@ -168,7 +165,7 @@ void MainGame::restart()
     {
         for (int j = 0; j < tableCols; j++)
         {
-			blocks[i][j].type = EMPTY;
+			blocks[i][j].type = NONE;
 			blocks[i][j].number = 0;
 			blocks[i][j].isCovered = true;
 			blocks[i][j].isMarked = false;
@@ -299,33 +296,33 @@ void MainGame::gameoverLose(int x, int y)
     status = OVER;
 }
 
-void MainGame::update()
+void MainGame::autoUncover()
 {
-	static QVector <QPoint> emptys;
+	static QVector <QPoint> nones;
 
     for (int x = 0; x < tableRows; x++)
     {
         for (int y = 0; y < tableCols; y++)
         {
-			if (blocks[x][y].type == EMPTY && !blocks[x][y].isCovered)
+			if (blocks[x][y].type == NONE && !blocks[x][y].isCovered)
             {
 				static QPoint temp;
 
 				temp.setX(x);
 				temp.setY(y);
 
-				emptys.append(temp);
+				nones.append(temp);
             }
         }
     }
-	for (int i = 0; i < emptys.size(); i++)
+	for (int i = 0; i < nones.size(); i++)
     {
         for (int sideX = -1; sideX <= 1; sideX++)
         {
             for (int sideY = -1; sideY <= 1; sideY++)
             {
-				int x = emptys[i].x() + sideX;
-				int y = emptys[i].y() + sideY;
+				int x = nones[i].x() + sideX;
+				int y = nones[i].y() + sideY;
 
 				if (x >= 0 && x < tableRows && y >= 0 && y < tableCols && !blocks[x][y].isMarked)
                 {
@@ -334,7 +331,7 @@ void MainGame::update()
             }
         }
     }
-	emptys.clear();
+	nones.clear();
 }
 
 void MainGame::mousePressEvent(QMouseEvent* event)
@@ -479,20 +476,20 @@ void MainGame::displayBlock(QPainter& painter)
 
 void MainGame::displayInfo(QPainter& painter)
 {
-	static char text[INFO_LENGTH];
+	static QString text;
 
-    switch (status)
+	switch (status)
     {
-		case PAUSE: snprintf(text, INFO_LENGTH, "TIME: %d (PAUSE)", timeDuring); break;
-		default: snprintf(text, INFO_LENGTH, "TIME: %d", timeDuring); break;
+		case PAUSE: text = QString("TIME: %1 (PAUSE)").arg(timeDuring); break;
+		default: text = QString("TIME: %1").arg(timeDuring); break;
     }
 	painter.drawText(MARGIN_X, INFO_TOP, text);
 
     switch (status)
-    {
-		case OVER: snprintf(text, INFO_LENGTH, "BOOM!"); break;
-		case WIN: snprintf(text, INFO_LENGTH, "Success!"); break;
-		default: snprintf(text, INFO_LENGTH, "MINES: %d", flagCount); break;
+	{
+		case OVER: text = "BOOM!"; break;
+		case WIN: text = "Success!"; break;
+		default: text = QString("MINES: %1").arg(flagCount); break;
     }
 	painter.drawText(screenWidth - INFO_WIDTH, INFO_TOP, text);
 }

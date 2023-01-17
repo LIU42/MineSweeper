@@ -4,6 +4,7 @@
 AboutDialog::AboutDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AboutDialog)
 {
 	ui->setupUi(this);
+	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 }
 
 AboutDialog::~AboutDialog()

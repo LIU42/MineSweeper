@@ -26,7 +26,7 @@ namespace Ui
 QT_END_NAMESPACE
 
 enum Status { PLAYING, PAUSE, OVER, WIN, EXIT };
-enum BlockType { EMPTY, NUMBER, MINE };
+enum BlockType { NONE, NUMBER, MINE };
 
 enum ImageConstant
 {
@@ -124,7 +124,6 @@ class MainGame : public QMainWindow
 
 	private:
 		static const int INFO_TOP = 53;
-		static const int INFO_LENGTH = 30;
 		static const int INFO_WIDTH = 120;
 
     private:
@@ -188,7 +187,7 @@ class MainGame : public QMainWindow
 		void setPause();
         void gameoverWin();
         void gameoverLose(int, int);
-        void update();
+		void autoUncover();
 
 	private:
         void mousePressEvent(QMouseEvent*);

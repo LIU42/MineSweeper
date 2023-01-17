@@ -4,6 +4,7 @@
 SuccessDialog::SuccessDialog(QWidget* parent) : QDialog(parent), ui(new Ui::SuccessDialog)
 {
     ui->setupUi(this);
+	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 	connect(ui->donePushButton, &QPushButton::clicked, this, &SuccessDialog::inputDone);
 }
 
