@@ -7,7 +7,6 @@
 #include <QTimer>
 #include <QPainter>
 #include <QMediaPlayer>
-#include <QDateTime>
 #include <QStyle>
 #include <QScreen>
 

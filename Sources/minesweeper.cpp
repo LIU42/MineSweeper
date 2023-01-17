@@ -21,7 +21,7 @@ MainGame::~MainGame()
 
 void MainGame::init()
 {
-	srand(QDateTime::currentMSecsSinceEpoch());
+	srand((unsigned)time(NULL));
 
 	loadImage();
 	loadAudio();
