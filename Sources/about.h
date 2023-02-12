@@ -19,6 +19,9 @@ class AboutDialog : public QDialog
 	private:
 		Ui::AboutDialog* ui;
 
+	private:
+		void setDialogFlags();
+
 	public:
 		AboutDialog(QWidget* parent = nullptr);
 		~AboutDialog();

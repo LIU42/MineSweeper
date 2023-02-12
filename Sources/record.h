@@ -38,7 +38,6 @@ class RecordDialog : public QDialog
 	private:
 		static const int LEVEL_COUNT = 3;
 		static const int RECORD_COUNT = 3;
-		static const int INFO_LENGTH = 30;
 
 	private:
 		Ui::RecordDialog* ui;
@@ -51,12 +50,15 @@ class RecordDialog : public QDialog
 	private:
 		static bool compare(Record&, Record&);
 
+	private:
+		void setDialogFlags();
+		void initDialog();
+
 	public:
 		RecordDialog(QWidget* parent = nullptr);
 		~RecordDialog();
 
 	public:
-		void initDialog();
 		void openDialog();
 		void getRecord(QString, int, Level);
 };

@@ -22,7 +22,6 @@ MainGame::~MainGame()
 void MainGame::init()
 {
 	srand((unsigned)time(NULL));
-
 	loadImage();
 	loadAudio();
 	initColor();
@@ -191,29 +190,25 @@ void MainGame::initColor()
 
 void MainGame::addMine()
 {
-	static QVector <int> numbers;
-
-	mines.clear();
+	mineList.clear();
 
 	for (int i = 0; i < ROWS_MAX * COLS_MAX; i++)
 	{
-		numbers.append(i);
+		numberList.append(i);
 	}
 	for (int i = 0; i < tableRows * tableCols; i++)
 	{
-		qSwap(numbers[i], numbers[rand() % (tableRows * tableCols)]);
+		qSwap(numberList[i], numberList[rand() % (tableRows * tableCols)]);
 	}
 	for (int i = 0; i < mineInitCount; i++)
 	{
-		static QPoint temp;
+		int x = numberList[i] % tableRows;
+		int y = numberList[i] / tableRows;
 
-		temp.setX(numbers[i] % tableRows);
-		temp.setY(numbers[i] / tableRows);
-
-		blocks[temp.x()][temp.y()].type = MINE;
-		mines.append(temp);
+		blocks[x][y].type = MINE;
+		mineList.append(QPoint(x, y));
 	}
-	numbers.clear();
+	numberList.clear();
 }
 
 void MainGame::addNumber()
@@ -224,8 +219,8 @@ void MainGame::addNumber()
         {
             for (int sideY = -1; sideY <= 1; sideY++)
             {
-				int x = mines[i].x() + sideX;
-				int y = mines[i].y() + sideY;
+				int x = mineList[i].x() + sideX;
+				int y = mineList[i].y() + sideY;
 
 				if (x >= 0 && x < tableRows && y >= 0 && y < tableCols && blocks[x][y].type != MINE)
                 {
@@ -298,31 +293,24 @@ void MainGame::gameoverLose(int x, int y)
 
 void MainGame::autoUncover()
 {
-	static QVector <QPoint> nones;
-
     for (int x = 0; x < tableRows; x++)
     {
         for (int y = 0; y < tableCols; y++)
         {
 			if (blocks[x][y].type == NONE && !blocks[x][y].isCovered)
             {
-				static QPoint temp;
-
-				temp.setX(x);
-				temp.setY(y);
-
-				nones.append(temp);
+				noneList.append(QPoint(x, y));
             }
         }
     }
-	for (int i = 0; i < nones.size(); i++)
+	for (int i = 0; i < noneList.size(); i++)
     {
         for (int sideX = -1; sideX <= 1; sideX++)
         {
             for (int sideY = -1; sideY <= 1; sideY++)
             {
-				int x = nones[i].x() + sideX;
-				int y = nones[i].y() + sideY;
+				int x = noneList[i].x() + sideX;
+				int y = noneList[i].y() + sideY;
 
 				if (x >= 0 && x < tableRows && y >= 0 && y < tableCols && !blocks[x][y].isMarked)
                 {
@@ -331,7 +319,7 @@ void MainGame::autoUncover()
             }
         }
     }
-	nones.clear();
+	noneList.clear();
 }
 
 void MainGame::mousePressEvent(QMouseEvent* event)
@@ -483,7 +471,7 @@ void MainGame::displayInfo(QPainter& painter)
 		case PAUSE: text = QString("TIME: %1 (PAUSE)").arg(timeDuring); break;
 		default: text = QString("TIME: %1").arg(timeDuring); break;
     }
-	painter.drawText(MARGIN_X, INFO_TOP, text);
+	painter.drawText(MARGIN_X, INFO_UPPER, text);
 
     switch (status)
 	{
@@ -491,7 +479,7 @@ void MainGame::displayInfo(QPainter& painter)
 		case WIN: text = "Success!"; break;
 		default: text = QString("MINES: %1").arg(flagCount); break;
     }
-	painter.drawText(screenWidth - INFO_WIDTH, INFO_TOP, text);
+	painter.drawText(screenWidth - INFO_WIDTH, INFO_UPPER, text);
 }
 
 void MainGame::paintEvent(QPaintEvent*)

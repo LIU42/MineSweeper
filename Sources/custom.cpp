@@ -4,13 +4,23 @@
 CustomDialog::CustomDialog(QWidget* parent) : QDialog(parent), ui(new Ui::CustomDialog)
 {
 	ui->setupUi(this);
-	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
-	connect(ui->doneButton, &QPushButton::clicked, this, &CustomDialog::inputDone);
+	setDialogFlags();
+	connectSignals();
 }
 
 CustomDialog::~CustomDialog()
 {
 	delete ui;
+}
+
+void CustomDialog::setDialogFlags()
+{
+	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
+}
+
+void CustomDialog::connectSignals()
+{
+	connect(ui->doneButton, &QPushButton::clicked, this, &CustomDialog::inputDone);
 }
 
 void CustomDialog::openDialog()

@@ -4,7 +4,7 @@
 RecordDialog::RecordDialog(QWidget* parent) : QDialog(parent), ui(new Ui::RecordDialog)
 {
 	ui->setupUi(this);
-	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
+	setDialogFlags();
 	initDialog();
 }
 
@@ -16,6 +16,11 @@ RecordDialog::~RecordDialog()
 bool RecordDialog::compare(Record& record1, Record& record2)
 {
 	return record1.time < record2.time;
+}
+
+void RecordDialog::setDialogFlags()
+{
+	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 }
 
 void RecordDialog::initDialog()
@@ -41,13 +46,13 @@ void RecordDialog::initDialog()
 
 void RecordDialog::openDialog()
 {
-	static char text[INFO_LENGTH];
+	static QString text;
 
 	for (int level = EASY; level <= HIGH; level++)
 	{
 		for (int i = 0; i < RECORD_COUNT; i++)
 		{
-			sprintf(text, "%ds (%s)", record[level][i].time, record[level][i].name.toStdString().data());
+			text = QString("%1s (%2)").arg(record[level][i].time).arg(record[level][i].name);
 			recordLabel[level][i]->setText((i < recordCount[level]) ? text : "~");
 		}
 	}

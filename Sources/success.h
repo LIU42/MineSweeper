@@ -20,6 +20,10 @@ class SuccessDialog : public QDialog
 		Ui::SuccessDialog* ui;
 		bool isNeedSave;
 
+	private:
+		void setDialogFlags();
+		void connectSignals();
+
     public:
 		SuccessDialog(QWidget* parent = nullptr);
         ~SuccessDialog();

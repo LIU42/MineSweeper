@@ -60,6 +60,9 @@ enum class HighLevel
 	MINE_INIT_COUNT = 100
 };
 
+typedef QVector <QPoint> PointList;
+typedef QVector <int> NumberList;
+
 struct Block
 {
 	BlockType type;
@@ -122,7 +125,7 @@ class MainGame : public QMainWindow
 		static const int BLOCK_BORDER = 1;
 
 	private:
-		static const int INFO_TOP = 53;
+		static const int INFO_UPPER = 53;
 		static const int INFO_WIDTH = 120;
 
     private:
@@ -141,7 +144,9 @@ class MainGame : public QMainWindow
 
     private:
 		Block blocks[ROWS_MAX][COLS_MAX];
-		QVector <QPoint> mines;
+		PointList mineList;
+		PointList noneList;
+		NumberList numberList;
 
     private:
         int screenWidth;
