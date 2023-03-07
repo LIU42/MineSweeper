@@ -19,10 +19,10 @@ enum LabelConstant
 {
 	WIDTH = 160,
 	HEIGHT = 20,
-	INIT_X = 50,
-	INIT_Y = 90,
-	DISTANCE_X = 200,
-	DISTANCE_Y = 45
+	INIT_LEFT = 50,
+	INIT_UPPER = 90,
+	DISTANCE_LEFT = 200,
+	DISTANCE_UPPER = 45
 };
 
 struct Record
@@ -41,7 +41,7 @@ class RecordDialog : public QDialog
 
 	private:
 		Ui::RecordDialog* ui;
-		QLabel* recordLabel[LEVEL_COUNT][RECORD_COUNT];
+		QLabel* pRecordLabels[LEVEL_COUNT][RECORD_COUNT];
 
 	private:
 		Record record[LEVEL_COUNT][RECORD_COUNT];

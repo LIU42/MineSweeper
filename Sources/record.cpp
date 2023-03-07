@@ -31,32 +31,30 @@ void RecordDialog::initDialog()
 	{
 		for (int i = 0; i < RECORD_COUNT; i++)
 		{
-			static QRect rect;
+			static QRect labelRect;
 
-			rect.setX(INIT_X + DISTANCE_X * level);
-			rect.setY(INIT_Y + DISTANCE_Y * i);
-			rect.setWidth(WIDTH);
-			rect.setHeight(HEIGHT);
+			labelRect.setX(INIT_LEFT + DISTANCE_LEFT * level);
+			labelRect.setY(INIT_UPPER + DISTANCE_UPPER * i);
+			labelRect.setWidth(WIDTH);
+			labelRect.setHeight(HEIGHT);
 
-			recordLabel[level][i] = new QLabel(this);
-			recordLabel[level][i]->setGeometry(rect);
+			pRecordLabels[level][i] = new QLabel(this);
+			pRecordLabels[level][i]->setGeometry(labelRect);
 		}
 	}
 }
 
 void RecordDialog::openDialog()
 {
-	static QString text;
-
 	for (int level = EASY; level <= HIGH; level++)
 	{
 		for (int i = 0; i < RECORD_COUNT; i++)
 		{
-			text = QString("%1s (%2)").arg(record[level][i].time).arg(record[level][i].name);
-			recordLabel[level][i]->setText((i < recordCount[level]) ? text : "~");
+			QString text = QString("%1s (%2)").arg(record[level][i].time).arg(record[level][i].name);
+			pRecordLabels[level][i]->setText((i < recordCount[level]) ? text : "~");
 		}
 	}
-	this->exec();
+	QDialog::exec();
 }
 
 void RecordDialog::getRecord(QString name, int time, Level level)

@@ -26,13 +26,13 @@ void CustomDialog::connectSignals()
 void CustomDialog::openDialog()
 {
 	isNeedSet = false;
-	this->exec();
+	QDialog::exec();
 }
 
 void CustomDialog::inputDone()
 {
 	isNeedSet = true;
-	this->close();
+	QDialog::close();
 }
 
 bool CustomDialog::getIsNeedSet()

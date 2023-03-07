@@ -4,19 +4,19 @@
 MainGame::MainGame(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainGame)
 {
     ui->setupUi(this);
-	about = new AboutDialog(this);
-	custom = new CustomDialog(this);
-	success = new SuccessDialog(this);
-	record = new RecordDialog(this);
+	pAbout = new AboutDialog(this);
+	pCustom = new CustomDialog(this);
+	pSuccess = new SuccessDialog(this);
+	pRecord = new RecordDialog(this);
 }
 
 MainGame::~MainGame()
 {
     delete ui;
-	delete about;
-	delete custom;
-	delete success;
-	delete record;
+	delete pAbout;
+	delete pCustom;
+	delete pSuccess;
+	delete pRecord;
 }
 
 void MainGame::init()
@@ -34,16 +34,16 @@ void MainGame::init()
 
 void MainGame::loadImage()
 {
-	image.block.load(":/Images/block.png");
-    image.cover.load(":/Images/cover.png");
-    image.error.load(":/Images/error.png");
-    image.mine.load(":/Images/mine.png");
-    image.mineError.load(":/Images/mine_error.png");
-    image.flag.load(":/Images/flag.png");
+	images.block.load(":/Images/block.png");
+    images.cover.load(":/Images/cover.png");
+    images.error.load(":/Images/error.png");
+    images.mine.load(":/Images/mine.png");
+    images.mineError.load(":/Images/mine_error.png");
+    images.flag.load(":/Images/flag.png");
 
     for (int i = 0; i < NUMBER_COUNT; i++)
     {
-		image.number[i].load(QString(":/Images/number_%1.png").arg(i + 1));
+		images.number[i].load(QString(":/Images/number_%1.png").arg(i + 1));
     }
 }
 
@@ -86,14 +86,14 @@ void MainGame::setHighLevel()
 
 void MainGame::setCustomLevel()
 {
-	custom->openDialog();
+	pCustom->openDialog();
 
-	if (custom->getIsNeedSet())
+	if (pCustom->getIsNeedSet())
     {
 		level = CUSTOM;
-		tableRows = custom->getInputRows();
-		tableCols = custom->getInputCols();
-		mineInitCount = custom->getInputMineCount();
+		tableRows = pCustom->getInputRows();
+		tableCols = pCustom->getInputCols();
+		mineInitCount = pCustom->getInputMineCount();
         resizeWindow();
 		restart();
 	}
@@ -114,10 +114,14 @@ void MainGame::mainInterval()
 {
     if (status == PLAYING)
     {
-        MainGame::gameoverWin();
-		MainGame::autoUncover();
+		if (isMinimized())
+		{
+			setPause();
+		}
+		gameoverWin();
+		autoUncover();
     }
-	QWidget::update();
+	this->update();
 }
 
 void MainGame::clockCallback()
@@ -127,14 +131,14 @@ void MainGame::clockCallback()
 
 void MainGame::setInterval()
 {
-    timer.interval.setInterval(1000 / GAME_FPS);
-    timer.clock.setInterval(CLOCK_INTERVAL);
+    timers.interval.setInterval(1000 / GAME_FPS);
+    timers.clock.setInterval(CLOCK_INTERVAL);
 }
 
 void MainGame::connectTimer()
 {
-    connect(&timer.interval, &QTimer::timeout, this, &MainGame::mainInterval);
-    connect(&timer.clock, &QTimer::timeout, this, &MainGame::clockCallback);
+    connect(&timers.interval, &QTimer::timeout, this, &MainGame::mainInterval);
+    connect(&timers.clock, &QTimer::timeout, this, &MainGame::clockCallback);
 }
 
 void MainGame::connectAction()
@@ -145,14 +149,14 @@ void MainGame::connectAction()
     connect(ui->actionCustom, &QAction::triggered, this, &MainGame::setCustomLevel);
 	connect(ui->actionPause, &QAction::triggered, this, &MainGame::setPause);
 	connect(ui->actionRestart, &QAction::triggered, this, &MainGame::restart);
-	connect(ui->actionRecord, &QAction::triggered, record, &RecordDialog::openDialog);
-	connect(ui->actionAbout, &QAction::triggered, about, &AboutDialog::exec);
+	connect(ui->actionRecord, &QAction::triggered, pRecord, &RecordDialog::openDialog);
+	connect(ui->actionAbout, &QAction::triggered, pAbout, &AboutDialog::exec);
 }
 
 void MainGame::startTimer()
 {
-    timer.interval.start();
-    timer.clock.start();
+    timers.interval.start();
+    timers.clock.start();
 }
 
 void MainGame::restart()
@@ -183,9 +187,9 @@ void MainGame::restart()
 
 void MainGame::initColor()
 {
-	color.white.setRgb(WHITE);
-	color.black.setRgb(BLACK);
-	color.gray.setRgb(GRAY);
+	colors.white.setRgb(WHITE);
+	colors.black.setRgb(BLACK);
+	colors.gray.setRgb(GRAY);
 }
 
 void MainGame::addMine()
@@ -234,7 +238,7 @@ void MainGame::addNumber()
 
 void MainGame::setRecord()
 {
-	record->getRecord(success->getInputName(), timeDuring, level);
+	pRecord->getRecord(pSuccess->getInputName(), timeDuring, level);
 }
 
 void MainGame::setPause()
@@ -263,8 +267,8 @@ void MainGame::gameoverWin()
 
 	if (level != CUSTOM && !isHaveCracked)
 	{
-		success->openDialog();
-		if (success->getIsNeedSave()) { setRecord(); }
+		pSuccess->openDialog();
+		if (pSuccess->getIsNeedSave()) { setRecord(); }
 	}
 }
 
@@ -397,66 +401,66 @@ void MainGame::keyReleaseEvent(QKeyEvent *event)
 
 void MainGame::displayBackground(QPainter& painter)
 {
-	static QRect rect;
+	static QRect backgroundRect;
 
-	painter.fillRect(0, 0, screenWidth, screenHeight, QBrush(color.white));
+	painter.fillRect(0, 0, screenWidth, screenHeight, QBrush(colors.white));
 
-	rect.setX(MARGIN_X - BORDER);
-	rect.setY(MARGIN_Y - BORDER);
-	rect.setWidth(tableWidth + 2 * BORDER);
-	rect.setHeight(tableHeight + 2 * BORDER);
+	backgroundRect.setX(MARGIN_X - BORDER);
+	backgroundRect.setY(MARGIN_Y - BORDER);
+	backgroundRect.setWidth(tableWidth + 2 * BORDER);
+	backgroundRect.setHeight(tableHeight + 2 * BORDER);
 
-	painter.fillRect(rect, QBrush(color.black));
+	painter.fillRect(backgroundRect, QBrush(colors.black));
 
-	rect.setX(MARGIN_X - BLOCK_BORDER);
-	rect.setY(MARGIN_Y - BLOCK_BORDER);
-	rect.setWidth(tableWidth + 2 * BLOCK_BORDER);
-	rect.setHeight(tableHeight + 2 * BLOCK_BORDER);
+	backgroundRect.setX(MARGIN_X - BLOCK_BORDER);
+	backgroundRect.setY(MARGIN_Y - BLOCK_BORDER);
+	backgroundRect.setWidth(tableWidth + 2 * BLOCK_BORDER);
+	backgroundRect.setHeight(tableHeight + 2 * BLOCK_BORDER);
 
-	painter.fillRect(rect, QBrush(color.gray));
+	painter.fillRect(backgroundRect, QBrush(colors.gray));
 }
 
 void MainGame::displayBlock(QPainter& painter)
 {
-	static QRect rect;
+	static QRect blockRect;
 
 	for (int x = 0; x < tableRows; x++)
     {
 		for (int y = 0; y < tableCols; y++)
         {
-			rect.setX(MARGIN_X + x * BLOCK_SIZE);
-			rect.setY(MARGIN_Y + y * BLOCK_SIZE);
-			rect.setWidth(BLOCK_SIZE);
-			rect.setHeight(BLOCK_SIZE);
+			blockRect.setX(MARGIN_X + x * BLOCK_SIZE);
+			blockRect.setY(MARGIN_Y + y * BLOCK_SIZE);
+			blockRect.setWidth(BLOCK_SIZE);
+			blockRect.setHeight(BLOCK_SIZE);
 
 			if (status == PAUSE)
 			{
-				painter.drawPixmap(rect, image.cover);
+				painter.drawPixmap(blockRect, images.cover);
 				continue;
 			}
 			if (blocks[x][y].isCovered && !isCracked)
             {
-				painter.drawPixmap(rect, image.cover);
+				painter.drawPixmap(blockRect, images.cover);
 
 				if (blocks[x][y].isError)
                 {
-					painter.drawPixmap(rect, image.error);
+					painter.drawPixmap(blockRect, images.error);
                 }
 				else if (blocks[x][y].isMarked)
                 {
-					painter.drawPixmap(rect, image.flag);
+					painter.drawPixmap(blockRect, images.flag);
                 }
 				continue;
             }
-			painter.drawPixmap(rect, image.block);
+			painter.drawPixmap(blockRect, images.block);
 
 			if (blocks[x][y].type == NUMBER)
 			{
-				painter.drawPixmap(rect, image.number[blocks[x][y].number - 1]);
+				painter.drawPixmap(blockRect, images.number[blocks[x][y].number - 1]);
 			}
 			else if (blocks[x][y].type == MINE)
 			{
-				painter.drawPixmap(rect, (blocks[x][y].isTouched) ? image.mineError : image.mine);
+				painter.drawPixmap(blockRect, (blocks[x][y].isTouched) ? images.mineError : images.mine);
 			}
         }
     }

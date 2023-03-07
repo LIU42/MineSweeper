@@ -73,7 +73,7 @@ struct Block
     bool isTouched;
 };
 
-struct Image
+struct Images
 {
     QPixmap block;
     QPixmap cover;
@@ -84,13 +84,13 @@ struct Image
 	QPixmap number[NUMBER_COUNT];
 };
 
-struct Timer
+struct Timers
 {
     QTimer interval;
     QTimer clock;
 };
 
-struct Color
+struct Colors
 {
 	QColor white;
     QColor gray;
@@ -131,16 +131,16 @@ class MainGame : public QMainWindow
     private:
         Ui::MainGame* ui;
         QPoint mouse;
-        Image image;
-        Timer timer;
-        Color color;
+		Images images;
+		Timers timers;
+		Colors colors;
         Audio audio;
 
     private:
-		AboutDialog* about;
-		CustomDialog* custom;
-		SuccessDialog* success;
-		RecordDialog* record;
+		AboutDialog* pAbout;
+		CustomDialog* pCustom;
+		SuccessDialog* pSuccess;
+		RecordDialog* pRecord;
 
     private:
 		Block blocks[ROWS_MAX][COLS_MAX];

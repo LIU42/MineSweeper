@@ -26,13 +26,13 @@ void SuccessDialog::connectSignals()
 void SuccessDialog::openDialog()
 {
 	isNeedSave = false;
-    this->exec();
+	QDialog::exec();
 }
 
 void SuccessDialog::inputDone()
 {
 	isNeedSave = true;
-    this->close();
+	QDialog::close();
 }
 
 bool SuccessDialog::getIsNeedSave()
