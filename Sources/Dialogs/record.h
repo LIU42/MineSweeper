@@ -13,14 +13,6 @@ namespace Ui
 
 QT_END_NAMESPACE
 
-enum GameLevel
-{
-    LEVEL_EASY,
-    LEVEL_NORMAL,
-    LEVEL_HIGH,
-    LEVEL_CUSTOM
-};
-
 class RecordLabel : public QLabel
 {
     friend class RecordDialog;
@@ -44,7 +36,7 @@ class RecordLabel : public QLabel
         RecordLabel(QWidget* parent = nullptr);
 
     public:
-        void setGeometry(GameLevel, int);
+        void setGeometry(int, int);
         void setRecordInfo(QString&, int);
         void copyRecord(RecordLabel*);
         void updateRecordText();
@@ -71,7 +63,7 @@ class RecordDialog : public QDialog
         ~RecordDialog();
 
     public:
-        void addRecord(QString, int, GameLevel);
+        void addRecord(QString, int, int);
         void showDialog();
 };
 #endif

@@ -9,8 +9,7 @@
 #include <QStyle>
 #include <QScreen>
 
-#include "minesweeper.h"
-
+#include "Models/minesweeper.h"
 #include "Dialogs/about.h"
 #include "Dialogs/custom.h"
 #include "Dialogs/record.h"

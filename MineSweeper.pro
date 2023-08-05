@@ -23,7 +23,7 @@ SOURCES += \
 	Sources/graphics.cpp \
 	Sources/main.cpp \
 	Sources/mainwindow.cpp \
-	Sources/minesweeper.cpp
+	Sources/Models/minesweeper.cpp
 
 HEADERS += \
 	Sources/Dialogs/about.h \
@@ -32,7 +32,7 @@ HEADERS += \
 	Sources/Dialogs/success.h \
 	Sources/graphics.h \
 	Sources/mainwindow.h \
-	Sources/minesweeper.h
+	Sources/Models/minesweeper.h
 
 FORMS += \
 	Forms/Dialogs/about.ui \

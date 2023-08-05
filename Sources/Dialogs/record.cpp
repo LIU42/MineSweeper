@@ -6,9 +6,9 @@ RecordLabel::RecordLabel(QWidget* parent): QLabel(parent)
     isHaveRecord = false;
 }
 
-void RecordLabel::setGeometry(GameLevel level, int recordIndex)
+void RecordLabel::setGeometry(int levelIndex, int recordIndex)
 {
-    int x = INIT_POSITION_X + DISTANCE_X * level;
+    int x = INIT_POSITION_X + DISTANCE_X * levelIndex;
     int y = INIT_POSITION_Y + DISTANCE_Y * recordIndex;
 
     QLabel::setGeometry(x, y, WIDTH, HEIGHT);
@@ -52,39 +52,39 @@ void RecordDialog::setDialogFlags()
 
 void RecordDialog::initLabelMatrix()
 {
-    for (int level = LEVEL_EASY; level <= LEVEL_HIGH; level++)
+    for (int levelIndex = 0; levelIndex < LEVEL_COUNT; levelIndex++)
     {
         for (int recordIndex = 0; recordIndex < RECORD_COUNT; recordIndex++)
         {
-            pLabelMatrix[level][recordIndex] = new RecordLabel(this);
-            pLabelMatrix[level][recordIndex]->setGeometry((GameLevel)level, recordIndex);
+            pLabelMatrix[levelIndex][recordIndex] = new RecordLabel(this);
+            pLabelMatrix[levelIndex][recordIndex]->setGeometry(levelIndex, recordIndex);
         }
     }
 }
 
-void RecordDialog::addRecord(QString name, int time, GameLevel level)
+void RecordDialog::addRecord(QString name, int time, int levelIndex)
 {
     for (int insertIndex = 0; insertIndex < RECORD_COUNT; insertIndex++)
     {
-        if (time >= pLabelMatrix[level][insertIndex]->time && pLabelMatrix[level][insertIndex]->isHaveRecord)
+        if (time >= pLabelMatrix[levelIndex][insertIndex]->time && pLabelMatrix[levelIndex][insertIndex]->isHaveRecord)
         {
             continue;
         }
         for (int i = RECORD_COUNT - 2; i >= insertIndex; i--)
         {
-            pLabelMatrix[level][i + 1]->copyRecord(pLabelMatrix[level][i]);
+            pLabelMatrix[levelIndex][i + 1]->copyRecord(pLabelMatrix[levelIndex][i]);
         }
-        return pLabelMatrix[level][insertIndex]->setRecordInfo(name, time);
+        return pLabelMatrix[levelIndex][insertIndex]->setRecordInfo(name, time);
     }
 }
 
 void RecordDialog::showDialog()
 {
-    for (int level = LEVEL_EASY; level <= LEVEL_HIGH; level++)
+    for (int levelIndex = 0; levelIndex < LEVEL_COUNT; levelIndex++)
     {
         for (int recordIndex = 0; recordIndex < RECORD_COUNT; recordIndex++)
         {
-            pLabelMatrix[level][recordIndex]->updateRecordText();
+            pLabelMatrix[levelIndex][recordIndex]->updateRecordText();
         }
     }
     QDialog::exec();

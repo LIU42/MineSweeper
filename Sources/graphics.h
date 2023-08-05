@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QPainter>
 
-#include "minesweeper.h"
+#include "Models/minesweeper.h"
 
 class GameImages
 {

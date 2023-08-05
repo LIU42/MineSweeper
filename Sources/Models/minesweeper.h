@@ -4,8 +4,6 @@
 #include <QVector>
 #include <QPoint>
 
-#include "Dialogs/record.h"
-
 using BlockPointList = QVector<QPoint>;
 using NumberList = QVector<int>;
 
@@ -15,6 +13,14 @@ enum GameStatus
     STATUS_PAUSE,
     STATUS_FAILURE,
     STATUS_SUCCESS
+};
+
+enum GameLevel
+{
+    LEVEL_EASY,
+    LEVEL_NORMAL,
+    LEVEL_HIGH,
+    LEVEL_CUSTOM
 };
 
 enum GameBlockType
