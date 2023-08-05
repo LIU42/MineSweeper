@@ -30,7 +30,7 @@
   <property name="windowTitle">
    <string>排行榜 Mine Sweeper</string>
   </property>
-  <widget class="QLabel" name="normalTitleLabel">
+  <widget class="QLabel" name="pNormalTitleLabel">
    <property name="geometry">
     <rect>
      <x>280</x>
@@ -42,8 +42,13 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
-     <pointsize>11</pointsize>
+     <pointsize>10</pointsize>
+     <bold>true</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid #000000;
+color: #000000;</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::WinPanel</enum>
@@ -55,7 +60,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="easyTitleLabel">
+  <widget class="QLabel" name="pEasyTitleLabel">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -67,8 +72,13 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
-     <pointsize>11</pointsize>
+     <pointsize>10</pointsize>
+     <bold>true</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid #000000;
+color: #000000;</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::WinPanel</enum>
@@ -80,7 +90,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="highTitleLabel">
+  <widget class="QLabel" name="pHighTitleLabel">
    <property name="geometry">
     <rect>
      <x>480</x>
@@ -92,8 +102,13 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
-     <pointsize>11</pointsize>
+     <pointsize>10</pointsize>
+     <bold>true</bold>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border: 2px solid #000000;
+color: #000000;</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::WinPanel</enum>
@@ -105,7 +120,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="easyFirstLabel">
+  <widget class="QLabel" name="pEasyLabelNo1">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -123,7 +138,7 @@
     <string>1.</string>
    </property>
   </widget>
-  <widget class="QLabel" name="normalFirstLabel">
+  <widget class="QLabel" name="pNormalLabelNo1">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -141,7 +156,7 @@
     <string>1.</string>
    </property>
   </widget>
-  <widget class="QLabel" name="highFirstLabel">
+  <widget class="QLabel" name="pHighLabelNo1">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -159,7 +174,7 @@
     <string>1.</string>
    </property>
   </widget>
-  <widget class="QLabel" name="easySecondLabel">
+  <widget class="QLabel" name="pEasyLabelNo2">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -177,7 +192,7 @@
     <string>2.</string>
    </property>
   </widget>
-  <widget class="QLabel" name="easyThirdLabel">
+  <widget class="QLabel" name="pEasyLabelNo3">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -195,7 +210,7 @@
     <string>3.</string>
    </property>
   </widget>
-  <widget class="QLabel" name="normalSecondLabel">
+  <widget class="QLabel" name="pNormalLabelNo2">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -213,7 +228,7 @@
     <string>2.</string>
    </property>
   </widget>
-  <widget class="QLabel" name="highSecondLabel">
+  <widget class="QLabel" name="pHighLabelNo2">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -231,7 +246,7 @@
     <string>2.</string>
    </property>
   </widget>
-  <widget class="QLabel" name="normalThirdLabel">
+  <widget class="QLabel" name="pNormalLabelNo3">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -249,7 +264,7 @@
     <string>3.</string>
    </property>
   </widget>
-  <widget class="QLabel" name="highThirdLabel">
+  <widget class="QLabel" name="pHighLabelNo3">
    <property name="geometry">
     <rect>
      <x>420</x>
@@ -267,7 +282,7 @@
     <string>3.</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="closePushButton">
+  <widget class="QPushButton" name="pCloseButton">
    <property name="geometry">
     <rect>
      <x>530</x>
@@ -289,7 +304,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>closePushButton</sender>
+   <sender>pCloseButton</sender>
    <signal>clicked()</signal>
    <receiver>RecordDialog</receiver>
    <slot>close()</slot>

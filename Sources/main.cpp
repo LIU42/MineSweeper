@@ -1,12 +1,14 @@
-﻿#include "minesweeper.h"
+﻿#include "mainwindow.h"
 
 int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
+    MainWindow window;
     MainGame game;
 
-	game.init();
-	game.show();
+    window.setGame(&game);
+    window.init();
+    window.show();
 
     return app.exec();
 }

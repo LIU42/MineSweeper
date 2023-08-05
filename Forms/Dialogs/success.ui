@@ -28,9 +28,9 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Mine Sweeper</string>
+   <string>获胜 Mine Sweeper</string>
   </property>
-  <widget class="QLabel" name="titleLabel">
+  <widget class="QLabel" name="pTitleLabel">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -41,8 +41,8 @@
    </property>
    <property name="font">
     <font>
+     <family>微软雅黑</family>
      <pointsize>12</pointsize>
-     <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
@@ -53,7 +53,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="nameLabel">
+  <widget class="QLabel" name="pNameLabel">
    <property name="geometry">
     <rect>
      <x>25</x>
@@ -64,6 +64,7 @@
    </property>
    <property name="font">
     <font>
+     <family>微软雅黑</family>
      <pointsize>9</pointsize>
     </font>
    </property>
@@ -71,7 +72,7 @@
     <string>请输入您的姓名:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="nameLineEdit">
+  <widget class="QLineEdit" name="pNameLineEdit">
    <property name="geometry">
     <rect>
      <x>155</x>
@@ -87,7 +88,7 @@
     <number>10</number>
    </property>
   </widget>
-  <widget class="QPushButton" name="donePushButton">
+  <widget class="QPushButton" name="pDoneButton">
    <property name="geometry">
     <rect>
      <x>200</x>

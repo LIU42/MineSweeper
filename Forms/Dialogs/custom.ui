@@ -30,7 +30,7 @@
   <property name="windowTitle">
    <string>自定义 Mine Sweeper</string>
   </property>
-  <widget class="QPushButton" name="doneButton">
+  <widget class="QPushButton" name="pDoneButton">
    <property name="geometry">
     <rect>
      <x>250</x>
@@ -49,7 +49,7 @@
     <string>OK</string>
    </property>
   </widget>
-  <widget class="QLabel" name="widthLabel">
+  <widget class="QLabel" name="pWidthLabel">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -67,7 +67,7 @@
     <string>请输入界面宽度（10~40）</string>
    </property>
   </widget>
-  <widget class="QLabel" name="heightLabel">
+  <widget class="QLabel" name="pHeightLabel">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -85,7 +85,7 @@
     <string>请输入界面高度（10~25）</string>
    </property>
   </widget>
-  <widget class="QLabel" name="mineLabel">
+  <widget class="QLabel" name="pMineLabel">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -103,7 +103,7 @@
     <string>请输入地雷数量（1~999）</string>
    </property>
   </widget>
-  <widget class="QSpinBox" name="widthSpinBox">
+  <widget class="QSpinBox" name="pWidthSpinBox">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -125,7 +125,7 @@
     <number>15</number>
    </property>
   </widget>
-  <widget class="QSpinBox" name="heightSpinBox">
+  <widget class="QSpinBox" name="pHeightSpinBox">
    <property name="geometry">
     <rect>
      <x>240</x>
@@ -144,7 +144,7 @@
     <number>15</number>
    </property>
   </widget>
-  <widget class="QSpinBox" name="mineSpinBox">
+  <widget class="QSpinBox" name="pMineSpinBox">
    <property name="geometry">
     <rect>
      <x>240</x>

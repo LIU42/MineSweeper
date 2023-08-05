@@ -3,16 +3,16 @@
 
 AboutDialog::AboutDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AboutDialog)
 {
-	ui->setupUi(this);
-	setDialogFlags();
+    ui->setupUi(this);
+    setDialogFlags();
 }
 
 AboutDialog::~AboutDialog()
 {
-	delete ui;
+    delete ui;
 }
 
 void AboutDialog::setDialogFlags()
 {
-	setWindowFlag(Qt::WindowContextHelpButtonHint, false);
+    setWindowFlag(Qt::WindowContextHelpButtonHint, false);
 }

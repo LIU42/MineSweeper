@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>AboutDialog</class>
  <widget class="QDialog" name="AboutDialog">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -31,7 +34,7 @@
   <property name="sizeGripEnabled">
    <bool>false</bool>
   </property>
-  <widget class="QPushButton" name="closeButton">
+  <widget class="QPushButton" name="pCloseButton">
    <property name="geometry">
     <rect>
      <x>280</x>
@@ -49,7 +52,7 @@
     <string>OK</string>
    </property>
   </widget>
-  <widget class="QLabel" name="introductionLabel">
+  <widget class="QLabel" name="pIntroductionLabel">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -71,7 +74,7 @@
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="titleLabel">
+  <widget class="QLabel" name="pTitleLabel">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -91,7 +94,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>closeButton</sender>
+   <sender>pCloseButton</sender>
    <signal>clicked()</signal>
    <receiver>AboutDialog</receiver>
    <slot>close()</slot>

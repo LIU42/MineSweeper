@@ -1,214 +1,136 @@
 ﻿#ifndef __MINESWEEPER_H__
 #define __MINESWEEPER_H__
 
-#include <QApplication>
-#include <QMainWindow>
-#include <QMouseEvent>
-#include <QTimer>
-#include <QPainter>
-#include <QMediaPlayer>
-#include <QStyle>
-#include <QScreen>
+#include <QVector>
+#include <QPoint>
 
-#include "about.h"
-#include "custom.h"
-#include "record.h"
-#include "success.h"
+#include "Dialogs/record.h"
 
-QT_BEGIN_NAMESPACE
+using BlockPointList = QVector<QPoint>;
+using NumberList = QVector<int>;
 
-namespace Ui
+enum GameStatus
 {
-    class MainGame;
-}
-
-QT_END_NAMESPACE
-
-enum Status { PLAYING, PAUSE, OVER, WIN, EXIT };
-enum BlockType { NONE, NUMBER, MINE };
-
-enum ImageConstant
-{
-	NUMBER_COUNT = 8
+    STATUS_PLAYING,
+    STATUS_PAUSE,
+    STATUS_FAILURE,
+    STATUS_SUCCESS
 };
 
-enum ColorConstant
+enum GameBlockType
 {
-	WHITE = 0xFFFFFFFF,
-	BLACK = 0xFF353535,
-	GRAY = 0xFF606060
+    BLOCK_EMPTY,
+    BLOCK_NUMBER,
+    BLOCK_MINE
 };
 
-enum class EasyLevel
+class GameEasyLevel
 {
-	ROWS = 10,
-	COLS = 10,
-	MINE_INIT_COUNT = 10
-};
-
-enum class NormalLevel
-{
-	ROWS = 15,
-	COLS = 15,
-	MINE_INIT_COUNT = 30
-};
-
-enum class HighLevel
-{
-	ROWS = 30,
-	COLS = 20,
-	MINE_INIT_COUNT = 100
-};
-
-typedef QVector <QPoint> PointList;
-typedef QVector <int> NumberList;
-
-struct Block
-{
-	BlockType type;
-    int number;
-    bool isCovered;
-    bool isMarked;
-    bool isError;
-    bool isTouched;
-};
-
-struct Images
-{
-    QPixmap block;
-    QPixmap cover;
-    QPixmap error;
-    QPixmap mine;
-    QPixmap mineError;
-    QPixmap flag;
-	QPixmap number[NUMBER_COUNT];
-};
-
-struct Timers
-{
-    QTimer interval;
-    QTimer clock;
-};
-
-struct Colors
-{
-	QColor white;
-    QColor gray;
-    QColor black;
-};
-
-struct Audio
-{
-    QMediaPlayer click;
-    QMediaPlayer lose;
-    QMediaPlayer win;
-};
-
-class MainGame : public QMainWindow
-{
-    Q_OBJECT
-
-	private:
-		static const int GAME_FPS = 10;
-		static const int CLOCK_INTERVAL = 1000;
-
-	private:
-		static const int ROWS_MAX = 40;
-		static const int COLS_MAX = 25;
-		static const int MINE_COUNT_MAX = 1000;
-
-	private:
-		static const int BLOCK_SIZE = 32;
-		static const int MARGIN_X = 12;
-		static const int MARGIN_Y = 78;
-		static const int BORDER = 6;
-		static const int BLOCK_BORDER = 1;
-
-	private:
-		static const int INFO_UPPER = 53;
-		static const int INFO_WIDTH = 120;
+    friend class MainGame;
 
     private:
-        Ui::MainGame* ui;
-        QPoint mouse;
-		Images images;
-		Timers timers;
-		Colors colors;
-        Audio audio;
+        static const int ROWS = 10;
+        static const int COLS = 10;
+        static const int MINE_INIT_COUNT = 10;
+};
+
+class GameNormalLevel
+{
+    friend class MainGame;
 
     private:
-		AboutDialog* pAbout;
-		CustomDialog* pCustom;
-		SuccessDialog* pSuccess;
-		RecordDialog* pRecord;
+        static const int ROWS = 15;
+        static const int COLS = 15;
+        static const int MINE_INIT_COUNT = 30;
+};
+
+class GameHighLevel
+{
+    friend class MainGame;
 
     private:
-		Block blocks[ROWS_MAX][COLS_MAX];
-		PointList mineList;
-		PointList noneList;
-		NumberList numberList;
+        static const int ROWS = 30;
+        static const int COLS = 20;
+        static const int MINE_INIT_COUNT = 100;
+};
+
+class GameBlock
+{
+    friend class MainGame;
+    friend class GraphicsWidget;
+
+    public:
+        static const int SIZE = 32;
 
     private:
-        int screenWidth;
-        int screenHeight;
-        int tableWidth;
-        int tableHeight;
+        GameBlockType type;
+
+    private:
+        int number;
+        bool isCovered;
+        bool isMarked;
+        bool isError;
+        bool isTouched;
+};
+
+class MainGame
+{
+    private:
+        static const int ROWS_MAX = 40;
+        static const int COLS_MAX = 25;
+
+    private:
+        GameBlock blockMatrix[ROWS_MAX][COLS_MAX];
+        BlockPointList mineList;
+        BlockPointList emptyList;
+        NumberList numberList;
+        GameStatus status;
+        GameLevel level;
+
+    private:
         int tableRows;
         int tableCols;
         int mineInitCount;
-
-    private:
-		Status status;
-		Level level;
-        int flagCount;
-		int timeDuring;
+        int remainFlagCount;
         bool isCracked;
-		bool isHaveCracked;
+        bool isHaveCracked;
 
-	private:
+    public:
         void setEasyLevel();
         void setNormalLevel();
         void setHighLevel();
-        void setCustomLevel();
-        void resizeWindow();
+        void setCustomLevel(int, int, int);
 
-	private:
-        void loadImage();
-        void loadAudio();
-        void mainInterval();
-        void clockCallback();
-        void initColor();
-        void setInterval();
-        void connectTimer();
-        void connectAction();
-        void startTimer();
+    public:
+        void setPause();
+        void setResume();
+        void setCrackStart();
+        void setCrackEnd();
 
-	private:
-		void restart();
-        void addMine();
-        void addNumber();
-        void setRecord();
-		void setPause();
-        void gameoverWin();
-        void gameoverLose(int, int);
-		void autoUncover();
+    public:
+        void restart();
+        void addMines();
+        void addNumbers();
+        void autoUncoverBlocks();
 
-	private:
-        void mousePressEvent(QMouseEvent*);
-        void keyPressEvent(QKeyEvent*);
-        void keyReleaseEvent(QKeyEvent*);
+    public:
+        bool isLeftButtonClick(int, int);
+        bool isRightButtonClick(int, int);
 
-	private:
-        void displayBackground(QPainter&);
-        void displayBlock(QPainter&);
-        void displayInfo(QPainter&);
-        void paintEvent(QPaintEvent*);
+    public:
+        GameBlock getBlock(int, int);
+        GameLevel getLevel();
+        GameStatus getStatus();
 
-	public:
-		MainGame(QWidget* parent = nullptr);
-		~MainGame();
+    public:
+        int getTableRows();
+        int getTableCols();
+        int getRemainFlagCount();
+        bool getIsCracked();
+        bool getIsHaveCracked();
 
-	public:
-		void init();
+    public:
+        bool isSuccess();
+        bool isFailure(int, int);
 };
 #endif

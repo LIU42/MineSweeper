@@ -1,4 +1,4 @@
-QT       += core gui multimediawidgets
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,26 +16,30 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Sources/about.cpp \
-	Sources/custom.cpp \
-	Sources/record.cpp \
-	Sources/success.cpp \
+	Sources/Dialogs/about.cpp \
+	Sources/Dialogs/custom.cpp \
+	Sources/Dialogs/record.cpp \
+	Sources/Dialogs/success.cpp \
+	Sources/graphics.cpp \
 	Sources/main.cpp \
+	Sources/mainwindow.cpp \
 	Sources/minesweeper.cpp
 
 HEADERS += \
-    Sources/about.h \
-	Sources/custom.h \
-	Sources/record.h \
-	Sources/success.h \
+	Sources/Dialogs/about.h \
+	Sources/Dialogs/custom.h \
+	Sources/Dialogs/record.h \
+	Sources/Dialogs/success.h \
+	Sources/graphics.h \
+	Sources/mainwindow.h \
 	Sources/minesweeper.h
 
 FORMS += \
-    Forms/about.ui \
-	Forms/custom.ui \
-	Forms/minesweeper.ui \
-	Forms/record.ui \
-	Forms/success.ui
+	Forms/Dialogs/about.ui \
+	Forms/Dialogs/custom.ui \
+	Forms/Dialogs/record.ui \
+	Forms/Dialogs/success.ui \
+	Forms/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -45,4 +49,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     Resources/resource.qrc
 
-RC_ICONS = Images/icon.ico
+RC_ICONS = Resources/Images/icon.ico

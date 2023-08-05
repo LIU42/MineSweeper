@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>344</width>
+    <height>412</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>65536</width>
+    <height>65536</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Consolas</family>
+    <pointsize>11</pointsize>
+    <bold>true</bold>
+   </font>
+  </property>
+  <property name="acceptDrops">
+   <bool>false</bool>
+  </property>
+  <property name="windowTitle">
+   <string>Mine Sweeper</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Resources/resource.qrc">
+    <normaloff>:/Images/icon.ico</normaloff>:/Images/icon.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="pCentralWidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+   </property>
+   <layout class="QVBoxLayout" name="pMainLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <layout class="QHBoxLayout" name="pGameInfoLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <property name="leftMargin">
+       <number>12</number>
+      </property>
+      <property name="rightMargin">
+       <number>12</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="pTimeLabel">
+        <property name="minimumSize">
+         <size>
+          <width>160</width>
+          <height>42</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>42</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>0</width>
+          <height>42</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>11</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>TIME: 999</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="pMineLabel">
+        <property name="minimumSize">
+         <size>
+          <width>110</width>
+          <height>42</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>110</width>
+          <height>42</height>
+         </size>
+        </property>
+        <property name="baseSize">
+         <size>
+          <width>0</width>
+          <height>42</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Consolas</family>
+          <pointsize>11</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>MINES: 999</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="GraphicsWidget" name="pGraphics" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>344</width>
+        <height>344</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="pMenuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>344</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+     <pointsize>9</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+     <strikeout>false</strikeout>
+    </font>
+   </property>
+   <widget class="QMenu" name="pMenuStart">
+    <property name="title">
+     <string>开始(S)</string>
+    </property>
+    <addaction name="pActionEasyLevel"/>
+    <addaction name="pActionNormalLevel"/>
+    <addaction name="pActionHighLevel"/>
+    <addaction name="pActionCustomLevel"/>
+    <addaction name="separator"/>
+    <addaction name="pActionPause"/>
+    <addaction name="pActionRestart"/>
+   </widget>
+   <widget class="QMenu" name="pMenuHelp">
+    <property name="title">
+     <string>帮助(H)</string>
+    </property>
+    <addaction name="pActionRecord"/>
+    <addaction name="separator"/>
+    <addaction name="pActionAbout"/>
+   </widget>
+   <addaction name="pMenuStart"/>
+   <addaction name="pMenuHelp"/>
+  </widget>
+  <action name="pActionEasyLevel">
+   <property name="text">
+    <string>初级(E)</string>
+   </property>
+  </action>
+  <action name="pActionNormalLevel">
+   <property name="text">
+    <string>中级(N)</string>
+   </property>
+  </action>
+  <action name="pActionHighLevel">
+   <property name="text">
+    <string>高级(H)</string>
+   </property>
+  </action>
+  <action name="pActionRestart">
+   <property name="text">
+    <string>重新开始(R)</string>
+   </property>
+  </action>
+  <action name="pActionAbout">
+   <property name="text">
+    <string>关于(A)</string>
+   </property>
+  </action>
+  <action name="pActionCustomLevel">
+   <property name="text">
+    <string>自定义(C)</string>
+   </property>
+  </action>
+  <action name="pActionRecord">
+   <property name="text">
+    <string>排行榜(R)</string>
+   </property>
+  </action>
+  <action name="pActionPause">
+   <property name="text">
+    <string>暂停(P)</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GraphicsWidget</class>
+   <extends>QWidget</extends>
+   <header>graphics.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../Resources/resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
