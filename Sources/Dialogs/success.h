@@ -1,5 +1,5 @@
-﻿#ifndef __SUCCESS_H__
-#define __SUCCESS_H__
+#ifndef __DIALOGS_SUCCESS_H__
+#define __DIALOGS_SUCCESS_H__
 
 #include <QDialog>
 

@@ -1,4 +1,4 @@
-﻿#ifndef __GRAPHICS_H__
+#ifndef __GRAPHICS_H__
 #define __GRAPHICS_H__
 
 #include <QWidget>
@@ -60,14 +60,14 @@ class GraphicsWidget : public QWidget
         void paintEvent(QPaintEvent*);
 
     private:
-        void displayBackgroundOuter(QPainter&);
-        void displayBackgroundInner(QPainter&);
-        void displayBlocksUncovered(QPainter&, GameBlock&, int, int);
-        void displayBlocksCovered(QPainter&, GameBlock&, int, int);
+        void paintBackgroundOuter(QPainter&);
+        void paintBackgroundInner(QPainter&);
+        void paintBlocksUncovered(QPainter&, GameBlock&, int, int);
+        void paintBlocksCovered(QPainter&, GameBlock&, int, int);
 
     private:
-        void displayBackground(QPainter&);
-        void displayBlocks(QPainter&);
+        void paintBackground(QPainter&);
+        void paintBlocks(QPainter&);
 
     public:
         GraphicsWidget(QWidget* parent = nullptr);

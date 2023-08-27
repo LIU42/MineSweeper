@@ -1,5 +1,5 @@
-﻿#ifndef __RECORD_H__
-#define __RECORD_H__
+#ifndef __DIALOGS_RECORD_H__
+#define __DIALOGS_RECORD_H__
 
 #include <QDialog>
 #include <QLabel>

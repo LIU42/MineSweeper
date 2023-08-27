@@ -1,4 +1,4 @@
-﻿#ifndef __MAINWINDOW_H__
+#ifndef __MAINWINDOW_H__
 #define __MAINWINDOW_H__
 
 #include <QApplication>
@@ -107,6 +107,6 @@ class MainWindow : public QMainWindow
 
     public:
         void setGame(MainGame*);
-        void init();
+        void initialize();
 };
 #endif

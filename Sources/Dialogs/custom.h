@@ -1,5 +1,5 @@
-﻿#ifndef __CUSTOM_H__
-#define __CUSTOM_H__
+#ifndef __DIALOGS_CUSTOM_H__
+#define __DIALOGS_CUSTOM_H__
 
 #include <QDialog>
 

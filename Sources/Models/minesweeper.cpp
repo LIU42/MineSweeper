@@ -1,4 +1,4 @@
-﻿#include "minesweeper.h"
+#include "minesweeper.h"
 
 void MainGame::setEasyLevel()
 {
@@ -41,7 +41,6 @@ int MainGame::getTableCols()
 {
     return tableCols;
 }
-
 
 void MainGame::setPause()
 {

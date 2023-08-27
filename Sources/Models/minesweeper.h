@@ -1,5 +1,5 @@
-﻿#ifndef __MINESWEEPER_H__
-#define __MINESWEEPER_H__
+#ifndef __MODELS_MINESWEEPER_H__
+#define __MODELS_MINESWEEPER_H__
 
 #include <QVector>
 #include <QPoint>

@@ -1,4 +1,4 @@
-﻿#include "mainwindow.h"
+#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -25,9 +25,8 @@ void MainWindow::setGame(MainGame* pGame)
     ui->pGraphics->setGame(pGame);
 }
 
-void MainWindow::init()
+void MainWindow::initialize()
 {
-    srand((unsigned)time(NULL));
     loadAudio();
     setInterval();
     connectTimer();
@@ -86,7 +85,7 @@ void MainWindow::resizeWindow()
     screenHeight = pGame->getTableCols() * GameBlock::SIZE + MARGIN_X + MARGIN_Y;
 
     setFixedSize(screenWidth, screenHeight);
-    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), QGuiApplication::screens().at(0)->geometry()));
+    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), QGuiApplication::primaryScreen()->geometry()));
 }
 
 void MainWindow::mainInterval()
@@ -209,15 +208,13 @@ void MainWindow::gameAutoUncoverBlocks()
     pGame->autoUncoverBlocks();
 }
 
-void MainWindow::mousePressEvent(QMouseEvent* event)
+void MainWindow::mousePressEvent(QMouseEvent* pMouseEvent)
 {
-    Qt::MouseButton mouseButton = event->button();
-
-    if (mouseButton && !pGame->getIsCracked())
+    if (pMouseEvent->button() && !pGame->getIsCracked())
     {
         if (pGame->getStatus() == STATUS_PLAYING)
         {
-            QPoint mouse = event->pos();
+            QPoint mouse = pMouseEvent->pos();
 
             if (mouse.x() < MARGIN_X || mouse.x() > screenWidth - MARGIN_X) { return; }
             if (mouse.y() < MARGIN_Y || mouse.y() > screenHeight - MARGIN_X) { return; }
@@ -225,7 +222,7 @@ void MainWindow::mousePressEvent(QMouseEvent* event)
             int x = ((mouse.x() - MARGIN_X) / GameBlock::SIZE);
             int y = ((mouse.y() - MARGIN_Y) / GameBlock::SIZE);
 
-            if (mouseButton == Qt::LeftButton && pGame->isLeftButtonClick(x, y))
+            if (pMouseEvent->button() == Qt::LeftButton && pGame->isLeftButtonClick(x, y))
             {
                 if (pGame->isFailure(x, y))
                 {
@@ -238,7 +235,7 @@ void MainWindow::mousePressEvent(QMouseEvent* event)
                     audio.click.play();
                 }
             }
-            else if (mouseButton == Qt::RightButton && pGame->isRightButtonClick(x, y))
+            else if (pMouseEvent->button() == Qt::RightButton && pGame->isRightButtonClick(x, y))
             {
                 audio.click.stop();
                 audio.click.play();
@@ -254,19 +251,19 @@ void MainWindow::mousePressEvent(QMouseEvent* event)
     }
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event)
+void MainWindow::keyPressEvent(QKeyEvent* pKeyEvent)
 {
-    if (event->key() == Qt::Key_Z && pGame->getStatus() == STATUS_PLAYING)
+    if (pKeyEvent->key() == Qt::Key_Z && pGame->getStatus() == STATUS_PLAYING)
     {
         pGame->setCrackStart();
     }
-    if (event->key() == Qt::Key_R) { gameRestart(); }
-    if (event->key() == Qt::Key_P) { gamePause(); }
+    if (pKeyEvent->key() == Qt::Key_R) { gameRestart(); }
+    if (pKeyEvent->key() == Qt::Key_P) { gamePause(); }
 }
 
-void MainWindow::keyReleaseEvent(QKeyEvent *event)
+void MainWindow::keyReleaseEvent(QKeyEvent* pKeyEvent)
 {
-    if (event->key() == Qt::Key_Z && pGame->getStatus() == STATUS_PLAYING)
+    if (pKeyEvent->key() == Qt::Key_Z && pGame->getStatus() == STATUS_PLAYING)
     {
         pGame->setCrackEnd();
     }
