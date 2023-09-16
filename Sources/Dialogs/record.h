@@ -17,7 +17,7 @@ class RecordLabel : public QLabel
 {
     friend class RecordDialog;
 
-    public:
+    private:
         static const int WIDTH = 160;
         static const int HEIGHT = 20;
         static const int INIT_POSITION_X = 50;
@@ -32,10 +32,10 @@ class RecordLabel : public QLabel
         bool isHaveRecord;
         int time;
 
-    public:
+    private:
         RecordLabel(QWidget* parent = nullptr);
 
-    public:
+    private:
         void setGeometry(int, int);
         void setRecordInfo(QString&, int);
         void copyRecord(RecordLabel*);

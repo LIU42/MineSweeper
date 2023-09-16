@@ -9,7 +9,7 @@ using NumberList = QVector<int>;
 
 enum GameStatus
 {
-    STATUS_PLAYING,
+    STATUS_PROGRESS,
     STATUS_PAUSE,
     STATUS_FAILURE,
     STATUS_SUCCESS

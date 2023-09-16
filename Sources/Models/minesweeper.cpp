@@ -44,7 +44,7 @@ int MainGame::getTableCols()
 
 void MainGame::setPause()
 {
-    if (status == STATUS_PLAYING && !isCracked)
+    if (status == STATUS_PROGRESS && !isCracked)
     {
         status = STATUS_PAUSE;
     }
@@ -54,7 +54,7 @@ void MainGame::setResume()
 {
     if (status == STATUS_PAUSE)
     {
-        status = STATUS_PLAYING;
+        status = STATUS_PROGRESS;
     }
 }
 
@@ -84,7 +84,7 @@ void MainGame::restart()
         }
     }
     remainFlagCount = mineInitCount;
-    status = STATUS_PLAYING;
+    status = STATUS_PROGRESS;
     isCracked = false;
     isHaveCracked = false;
 }
