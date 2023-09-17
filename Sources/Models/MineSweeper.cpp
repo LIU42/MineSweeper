@@ -1,4 +1,4 @@
-#include "minesweeper.h"
+#include "Models/MineSweeper.h"
 
 void MainGame::setEasyLevel()
 {
@@ -44,7 +44,7 @@ int MainGame::getTableCols()
 
 void MainGame::setPause()
 {
-    if (status == STATUS_PROGRESS && !isCracked)
+    if (status == STATUS_MAINLOOP && !isCracked)
     {
         status = STATUS_PAUSE;
     }
@@ -54,7 +54,7 @@ void MainGame::setResume()
 {
     if (status == STATUS_PAUSE)
     {
-        status = STATUS_PROGRESS;
+        status = STATUS_MAINLOOP;
     }
 }
 
@@ -84,7 +84,7 @@ void MainGame::restart()
         }
     }
     remainFlagCount = mineInitCount;
-    status = STATUS_PROGRESS;
+    status = STATUS_MAINLOOP;
     isCracked = false;
     isHaveCracked = false;
 }

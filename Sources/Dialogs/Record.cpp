@@ -1,5 +1,5 @@
-﻿#include "record.h"
-#include "ui_record.h"
+#include "Dialogs/Record.h"
+#include "ui_Record.h"
 
 RecordLabel::RecordLabel(QWidget* parent): QLabel(parent)
 {

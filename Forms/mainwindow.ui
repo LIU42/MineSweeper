@@ -30,7 +30,7 @@
    <string>Mine Sweeper</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../Resources/resource.qrc">
+   <iconset resource="../Resources/Resources.qrc">
     <normaloff>:/Images/icon.ico</normaloff>:/Images/icon.ico</iconset>
   </property>
   <property name="styleSheet">
@@ -242,12 +242,12 @@ color: rgb(0, 0, 0);</string>
   <customwidget>
    <class>GraphicsWidget</class>
    <extends>QWidget</extends>
-   <header>graphics.h</header>
+   <header>Graphics.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../Resources/resource.qrc"/>
+  <include location="../Resources/Resources.qrc"/>
  </resources>
  <connections/>
 </ui>

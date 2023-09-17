@@ -1,5 +1,5 @@
-﻿#include "custom.h"
-#include "ui_custom.h"
+#include "Dialogs/Custom.h"
+#include "ui_Custom.h"
 
 CustomDialog::CustomDialog(QWidget* parent) : QDialog(parent), ui(new Ui::CustomDialog)
 {

@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "MainWindow.h"
+#include "ui_MainWindow.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -92,7 +92,7 @@ void MainWindow::mainInterval()
 {
     updateGameInfo();
     
-    if (pGame->getStatus() == STATUS_PROGRESS)
+    if (pGame->getStatus() == STATUS_MAINLOOP)
     {
         gameoverSuccess();
         gameAutoPause();
@@ -103,7 +103,7 @@ void MainWindow::mainInterval()
 
 void MainWindow::clockCallback()
 {
-    if (pGame->getStatus() == STATUS_PROGRESS)
+    if (pGame->getStatus() == STATUS_MAINLOOP)
     {
         elapseTime += 1;
     }
@@ -212,7 +212,7 @@ void MainWindow::mousePressEvent(QMouseEvent* pMouseEvent)
 {
     if (pMouseEvent->button() && !pGame->getIsCracked())
     {
-        if (pGame->getStatus() == STATUS_PROGRESS)
+        if (pGame->getStatus() == STATUS_MAINLOOP)
         {
             QPoint mouse = pMouseEvent->pos();
 
@@ -253,7 +253,7 @@ void MainWindow::mousePressEvent(QMouseEvent* pMouseEvent)
 
 void MainWindow::keyPressEvent(QKeyEvent* pKeyEvent)
 {
-    if (pKeyEvent->key() == Qt::Key_Z && pGame->getStatus() == STATUS_PROGRESS)
+    if (pKeyEvent->key() == Qt::Key_Z && pGame->getStatus() == STATUS_MAINLOOP)
     {
         pGame->setCrackStart();
     }
@@ -263,7 +263,7 @@ void MainWindow::keyPressEvent(QKeyEvent* pKeyEvent)
 
 void MainWindow::keyReleaseEvent(QKeyEvent* pKeyEvent)
 {
-    if (pKeyEvent->key() == Qt::Key_Z && pGame->getStatus() == STATUS_PROGRESS)
+    if (pKeyEvent->key() == Qt::Key_Z && pGame->getStatus() == STATUS_MAINLOOP)
     {
         pGame->setCrackEnd();
     }

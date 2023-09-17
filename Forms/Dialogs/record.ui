@@ -43,7 +43,7 @@
     <font>
      <family>微软雅黑</family>
      <pointsize>10</pointsize>
-     <bold>true</bold>
+     <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
@@ -73,7 +73,7 @@ color: #000000;</string>
     <font>
      <family>微软雅黑</family>
      <pointsize>10</pointsize>
-     <bold>true</bold>
+     <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
@@ -103,7 +103,7 @@ color: #000000;</string>
     <font>
      <family>微软雅黑</family>
      <pointsize>10</pointsize>
-     <bold>true</bold>
+     <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">

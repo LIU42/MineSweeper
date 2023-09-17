@@ -1,5 +1,5 @@
-﻿#include "success.h"
-#include "ui_success.h"
+#include "Dialogs/Success.h"
+#include "ui_Success.h"
 
 SuccessDialog::SuccessDialog(QWidget* parent) : QDialog(parent), ui(new Ui::SuccessDialog)
 {

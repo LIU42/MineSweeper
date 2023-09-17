@@ -1,4 +1,4 @@
-#include "graphics.h"
+#include "Graphics.h"
 
 GraphicsWidget::GraphicsWidget(QWidget* parent): QWidget(parent)
 {

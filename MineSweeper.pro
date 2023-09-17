@@ -15,31 +15,33 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH += $$PWD/Headers/
+
 SOURCES += \
-	Sources/Dialogs/about.cpp \
-	Sources/Dialogs/custom.cpp \
-	Sources/Dialogs/record.cpp \
-	Sources/Dialogs/success.cpp \
-	Sources/graphics.cpp \
-	Sources/main.cpp \
-	Sources/mainwindow.cpp \
-	Sources/Models/minesweeper.cpp
+	Sources/Dialogs/About.cpp \
+	Sources/Dialogs/Custom.cpp \
+	Sources/Dialogs/Record.cpp \
+	Sources/Dialogs/Success.cpp \
+	Sources/Graphics.cpp \
+	Sources/Main.cpp \
+	Sources/MainWindow.cpp \
+	Sources/Models/MineSweeper.cpp
 
 HEADERS += \
-	Sources/Dialogs/about.h \
-	Sources/Dialogs/custom.h \
-	Sources/Dialogs/record.h \
-	Sources/Dialogs/success.h \
-	Sources/graphics.h \
-	Sources/mainwindow.h \
-	Sources/Models/minesweeper.h
+	Headers/Dialogs/About.h \
+	Headers/Dialogs/Custom.h \
+	Headers/Dialogs/Record.h \
+	Headers/Dialogs/Success.h \
+	Headers/Graphics.h \
+	Headers/MainWindow.h \
+	Headers/Models/MineSweeper.h
 
 FORMS += \
-	Forms/Dialogs/about.ui \
-	Forms/Dialogs/custom.ui \
-	Forms/Dialogs/record.ui \
-	Forms/Dialogs/success.ui \
-	Forms/mainwindow.ui
+	Forms/Dialogs/About.ui \
+	Forms/Dialogs/Custom.ui \
+	Forms/Dialogs/Record.ui \
+	Forms/Dialogs/Success.ui \
+	Forms/MainWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -47,6 +49,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    Resources/resource.qrc
+    Resources/Resources.qrc
 
 RC_ICONS = Resources/Images/icon.ico
