@@ -4,16 +4,14 @@
 #include <QWidget>
 #include <QPainter>
 
-#include "Models/minesweeper.h"
+#include "Models/MineSweeper.h"
 
 class GameImages
 {
-    friend class GraphicsWidget;
-
-    private:
+    public:
         static const int NUMBER_COUNT = 8;
 
-    private:
+    public:
         QPixmap block;
         QPixmap cover;
         QPixmap error;
@@ -25,14 +23,12 @@ class GameImages
 
 class GameColors
 {
-    friend class GraphicsWidget;
-
-    private:
+    public:
         static const unsigned int WHITE = 0xFFFFFFFF;
         static const unsigned int BLACK = 0xFF353535;
         static const unsigned int GRAY = 0xFF606060;
 
-    private:
+    public:
         QColor white;
         QColor black;
         QColor gray;

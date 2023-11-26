@@ -32,9 +32,7 @@ enum GameBlockType
 
 class GameEasyLevel
 {
-    friend class MainGame;
-
-    private:
+    public:
         static const int ROWS = 10;
         static const int COLS = 10;
         static const int MINE_INIT_COUNT = 10;
@@ -42,9 +40,7 @@ class GameEasyLevel
 
 class GameNormalLevel
 {
-    friend class MainGame;
-
-    private:
+    public:
         static const int ROWS = 15;
         static const int COLS = 15;
         static const int MINE_INIT_COUNT = 30;
@@ -52,9 +48,7 @@ class GameNormalLevel
 
 class GameHighLevel
 {
-    friend class MainGame;
-
-    private:
+    public:
         static const int ROWS = 30;
         static const int COLS = 20;
         static const int MINE_INIT_COUNT = 100;
@@ -62,16 +56,13 @@ class GameHighLevel
 
 class GameBlock
 {
-    friend class MainGame;
-    friend class GraphicsWidget;
-
     public:
         static const int SIZE = 32;
 
-    private:
+    public:
         GameBlockType type;
 
-    private:
+    public:
         int number;
         bool isCovered;
         bool isMarked;

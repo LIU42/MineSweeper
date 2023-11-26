@@ -9,11 +9,11 @@
 #include <QStyle>
 #include <QScreen>
 
-#include "Models/minesweeper.h"
-#include "Dialogs/about.h"
-#include "Dialogs/custom.h"
-#include "Dialogs/record.h"
-#include "Dialogs/success.h"
+#include "Models/MineSweeper.h"
+#include "Dialogs/About.h"
+#include "Dialogs/Custom.h"
+#include "Dialogs/Record.h"
+#include "Dialogs/Success.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -26,22 +26,18 @@ QT_END_NAMESPACE
 
 class GameTimers
 {
-    friend class MainWindow;
-
-    private:
+    public:
         static const int GAME_FPS = 10;
         static const int CLOCK_INTERVAL = 1000;
 
-    private:
+    public:
         QTimer interval;
         QTimer clock;
 };
 
 class GameAudio
 {
-    friend class MainWindow;
-
-    private:
+    public:
         QSoundEffect click;
         QSoundEffect failure;
         QSoundEffect success;
