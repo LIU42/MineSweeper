@@ -27,18 +27,16 @@ class RecordLabel : public QLabel
 
     private:
         QString name;
-
-    private:
-        bool isHaveRecord;
         int time;
+        bool isHaveRecord;
 
     private:
         RecordLabel(QWidget* parent = nullptr);
 
     private:
-        void setGeometry(int, int);
-        void setRecordInfo(QString&, int);
-        void copyRecord(RecordLabel*);
+        void setGeometry(int levelIndex, int recordIndex);
+        void setRecordInfo(QString& name, int time);
+        void copyRecord(RecordLabel* pRecordLabel);
         void updateRecordText();
 };
 
@@ -63,7 +61,7 @@ class RecordDialog : public QDialog
         ~RecordDialog();
 
     public:
-        void addRecord(QString, int, int);
+        void addRecord(QString name, int time, int levelIndex);
         void showDialog();
 };
 #endif

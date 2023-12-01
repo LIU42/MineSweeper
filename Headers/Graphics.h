@@ -53,22 +53,22 @@ class GraphicsWidget : public QWidget
         void initColors();
 
     private:
-        void paintEvent(QPaintEvent*);
+        void paintEvent(QPaintEvent* pPaintEvent);
 
     private:
-        void paintBackgroundOuter(QPainter&);
-        void paintBackgroundInner(QPainter&);
-        void paintBlocksUncovered(QPainter&, GameBlock&, int, int);
-        void paintBlocksCovered(QPainter&, GameBlock&, int, int);
+        void paintBackgroundOuter(QPainter& painter);
+        void paintBackgroundInner(QPainter& painter);
+        void paintBlocksUncovered(QPainter& painter, GameBlock& block, int x, int y);
+        void paintBlocksCovered(QPainter& painter, GameBlock& block, int x, int y);
 
     private:
-        void paintBackground(QPainter&);
-        void paintBlocks(QPainter&);
+        void paintBackground(QPainter& painter);
+        void paintBlocks(QPainter& painter);
 
     public:
         GraphicsWidget(QWidget* parent = nullptr);
 
     public:
-        void setGame(MainGame*);
+        void setGame(MainGame* pGame);
 };
 #endif

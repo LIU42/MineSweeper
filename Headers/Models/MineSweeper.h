@@ -96,7 +96,7 @@ class MainGame
         void setEasyLevel();
         void setNormalLevel();
         void setHighLevel();
-        void setCustomLevel(int, int, int);
+        void setCustomLevel(int rows, int cols, int mineCount);
 
     public:
         void setPause();
@@ -111,11 +111,11 @@ class MainGame
         void autoUncoverBlocks();
 
     public:
-        bool isLeftButtonClick(int, int);
-        bool isRightButtonClick(int, int);
+        bool isLeftButtonClick(int x, int y);
+        bool isRightButtonClick(int x, int y);
 
     public:
-        GameBlock getBlock(int, int);
+        GameBlock getBlock(int x, int y);
         GameLevel getLevel();
         GameStatus getStatus();
 
@@ -128,6 +128,6 @@ class MainGame
 
     public:
         bool isSuccess();
-        bool isFailure(int, int);
+        bool isFailure(int x, int y);
 };
 #endif
