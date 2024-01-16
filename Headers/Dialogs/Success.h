@@ -18,11 +18,9 @@ class SuccessDialog : public QDialog
 
     private:
         Ui::SuccessDialog* ui;
-        bool isNeedSave;
 
     private:
-        void setDialogFlags();
-        void connectButtons();
+        bool isNeedSave;
 
     public:
         SuccessDialog(QWidget* parent = nullptr);
@@ -33,7 +31,7 @@ class SuccessDialog : public QDialog
         void colseDialog();
 
     public:
-        bool getIsNeedSave();
         QString getInputName();
+        bool getIsNeedSave();
 };
 #endif

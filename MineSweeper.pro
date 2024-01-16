@@ -25,7 +25,7 @@ SOURCES += \
 	Sources/Graphics.cpp \
 	Sources/Main.cpp \
 	Sources/MainWindow.cpp \
-	Sources/Models/MineSweeper.cpp
+	Sources/Games/MainGame.cpp
 
 HEADERS += \
 	Headers/Dialogs/About.h \
@@ -34,7 +34,7 @@ HEADERS += \
 	Headers/Dialogs/Success.h \
 	Headers/Graphics.h \
 	Headers/MainWindow.h \
-	Headers/Models/MineSweeper.h
+	Headers/Games/MainGame.h
 
 FORMS += \
 	Forms/Dialogs/About.ui \

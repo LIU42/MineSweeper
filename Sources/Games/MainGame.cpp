@@ -1,8 +1,8 @@
-#include "Models/MineSweeper.h"
+#include "Games/MainGame.h"
 
 void MainGame::setEasyLevel()
 {
-    level = LEVEL_EASY;
+    level = GameLevel::LEVEL_EASY;
     tableRows = GameEasyLevel::ROWS;
     tableCols = GameEasyLevel::COLS;
     mineInitCount = GameEasyLevel::MINE_INIT_COUNT;
@@ -10,7 +10,7 @@ void MainGame::setEasyLevel()
 
 void MainGame::setNormalLevel()
 {
-    level = LEVEL_NORMAL;
+    level = GameLevel::LEVEL_NORMAL;
     tableRows = GameNormalLevel::ROWS;
     tableCols = GameNormalLevel::COLS;
     mineInitCount = GameNormalLevel::MINE_INIT_COUNT;
@@ -18,7 +18,7 @@ void MainGame::setNormalLevel()
 
 void MainGame::setHighLevel()
 {
-    level = LEVEL_HIGH;
+    level = GameLevel::LEVEL_HIGH;
     tableRows = GameHighLevel::ROWS;
     tableCols = GameHighLevel::COLS;
     mineInitCount = GameHighLevel::MINE_INIT_COUNT;
@@ -26,7 +26,7 @@ void MainGame::setHighLevel()
 
 void MainGame::setCustomLevel(int rows, int cols, int mineCount)
 {
-    level = LEVEL_CUSTOM;
+    level = GameLevel::LEVEL_CUSTOM;
     tableRows = rows;
     tableCols = cols;
     mineInitCount = mineCount;
@@ -44,17 +44,17 @@ int MainGame::getTableCols()
 
 void MainGame::setPause()
 {
-    if (status == STATUS_MAINLOOP && !isCracked)
+    if (status == GameStatus::STATUS_MAINLOOP && !isCracked)
     {
-        status = STATUS_PAUSE;
+        status = GameStatus::STATUS_PAUSE;
     }
 }
 
 void MainGame::setResume()
 {
-    if (status == STATUS_PAUSE)
+    if (status == GameStatus::STATUS_PAUSE)
     {
-        status = STATUS_MAINLOOP;
+        status = GameStatus::STATUS_MAINLOOP;
     }
 }
 
@@ -75,7 +75,7 @@ void MainGame::restart()
     {
         for (int j = 0; j < tableCols; j++)
         {
-            blockMatrix[i][j].type = BLOCK_EMPTY;
+            blockMatrix[i][j].type = BlockType::BLOCK_EMPTY;
             blockMatrix[i][j].number = 0;
             blockMatrix[i][j].isCovered = true;
             blockMatrix[i][j].isMarked = false;
@@ -84,48 +84,50 @@ void MainGame::restart()
         }
     }
     remainFlagCount = mineInitCount;
-    status = STATUS_MAINLOOP;
+    status = GameStatus::STATUS_MAINLOOP;
     isCracked = false;
     isHaveCracked = false;
 }
 
 void MainGame::addMines()
 {
-    mineList.clear();
-    numberList.clear();
+    int tableSize = tableRows * tableCols;
 
-    for (int i = 0; i < tableRows * tableCols; i++)
+    minePositionList.clear();
+    indexList.clear();
+
+    for (int i = 0; i < tableSize; i++)
     {
-        numberList.append(i);
+        indexList.append(i);
     }
-    for (int i = 0; i < tableRows * tableCols; i++)
+    for (int i = 0; i < tableSize; i++)
     {
-        qSwap(numberList[i], numberList[rand() % (tableRows * tableCols)]);
+        qSwap(indexList[i], indexList[QRandomGenerator::global()->bounded(tableSize)]);
     }
     for (int i = 0; i < mineInitCount; i++)
     {
-        int x = numberList[i] % tableRows;
-        int y = numberList[i] / tableRows;
+        int x = indexList[i] % tableRows;
+        int y = indexList[i] / tableRows;
 
-        blockMatrix[x][y].type = BLOCK_MINE;
-        mineList.append(QPoint(x, y));
+        blockMatrix[x][y].type = BlockType::BLOCK_MINE;
+        minePositionList.append(QPoint(x, y));
     }
 }
 
 void MainGame::addNumbers()
 {
-    for (int i = 0; i < mineInitCount; i++)
+    for (QPoint& minePosition : minePositionList)
     {
         for (int sideX = -1; sideX <= 1; sideX++)
         {
             for (int sideY = -1; sideY <= 1; sideY++)
             {
-                int x = mineList[i].x() + sideX;
-                int y = mineList[i].y() + sideY;
+                int x = minePosition.x() + sideX;
+                int y = minePosition.y() + sideY;
 
-                if (x >= 0 && x < tableRows && y >= 0 && y < tableCols && blockMatrix[x][y].type != BLOCK_MINE)
+                if (x >= 0 && x < tableRows && y >= 0 && y < tableCols && blockMatrix[x][y].type != BlockType::BLOCK_MINE)
                 {
-                    blockMatrix[x][y].type = BLOCK_NUMBER;
+                    blockMatrix[x][y].type = BlockType::BLOCK_NUMBER;
                     blockMatrix[x][y].number += 1;
                 }
             }
@@ -133,26 +135,26 @@ void MainGame::addNumbers()
     }
 }
 
-void MainGame::autoUncoverBlocks()
+void MainGame::uncoverEmptyBlocks()
 {
     for (int x = 0; x < tableRows; x++)
     {
         for (int y = 0; y < tableCols; y++)
         {
-            if (blockMatrix[x][y].type == BLOCK_EMPTY && !blockMatrix[x][y].isCovered)
+            if (blockMatrix[x][y].type == BlockType::BLOCK_EMPTY && !blockMatrix[x][y].isCovered)
             {
-                emptyList.append(QPoint(x, y));
+                emptyPositionList.append(QPoint(x, y));
             }
         }
     }
-    for (int i = 0; i < emptyList.size(); i++)
+    for (QPoint& emptyPosition : emptyPositionList)
     {
         for (int sideX = -1; sideX <= 1; sideX++)
         {
             for (int sideY = -1; sideY <= 1; sideY++)
             {
-                int x = emptyList[i].x() + sideX;
-                int y = emptyList[i].y() + sideY;
+                int x = emptyPosition.x() + sideX;
+                int y = emptyPosition.y() + sideY;
 
                 if (x >= 0 && x < tableRows && y >= 0 && y < tableCols && !blockMatrix[x][y].isMarked)
                 {
@@ -161,10 +163,10 @@ void MainGame::autoUncoverBlocks()
             }
         }
     }
-    emptyList.clear();
+    emptyPositionList.clear();
 }
 
-GameBlock MainGame::getBlock(int x, int y)
+GameBlock& MainGame::getBlock(int x, int y)
 {
     return blockMatrix[x][y];
 }
@@ -229,19 +231,19 @@ bool MainGame::isSuccess()
     {
         for (int y = 0; y < tableCols; y++)
         {
-            if (blockMatrix[x][y].type != BLOCK_MINE && blockMatrix[x][y].isCovered)
+            if (blockMatrix[x][y].type != BlockType::BLOCK_MINE && blockMatrix[x][y].isCovered)
             {
                 return false;
             }
         }
     }
-    status = STATUS_SUCCESS;
+    status = GameStatus::STATUS_SUCCESS;
     return true;
 }
 
 bool MainGame::isFailure(int x, int y)
 {
-    if (blockMatrix[x][y].type != BLOCK_MINE)
+    if (blockMatrix[x][y].type != BlockType::BLOCK_MINE)
     {
         return false;
     }
@@ -251,16 +253,16 @@ bool MainGame::isFailure(int x, int y)
     {
         for (int y = 0; y < tableCols; y++)
         {
-            if (blockMatrix[x][y].type == BLOCK_MINE && !blockMatrix[x][y].isMarked)
+            if (blockMatrix[x][y].type == BlockType::BLOCK_MINE && !blockMatrix[x][y].isMarked)
             {
                 blockMatrix[x][y].isCovered = false;
             }
-            else if (blockMatrix[x][y].type != BLOCK_MINE && blockMatrix[x][y].isMarked)
+            else if (blockMatrix[x][y].type != BlockType::BLOCK_MINE && blockMatrix[x][y].isMarked)
             {
                 blockMatrix[x][y].isError = true;
             }
         }
     }
-    status = STATUS_FAILURE;
+    status = GameStatus::STATUS_FAILURE;
     return true;
 }

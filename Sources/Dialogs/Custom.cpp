@@ -4,8 +4,7 @@
 CustomDialog::CustomDialog(QWidget* parent) : QDialog(parent), ui(new Ui::CustomDialog)
 {
     ui->setupUi(this);
-    setDialogFlags();
-    connectButtons();
+    connect(ui->pDoneButton, &QPushButton::clicked, this, &CustomDialog::closeDialog);
 }
 
 CustomDialog::~CustomDialog()
@@ -13,26 +12,16 @@ CustomDialog::~CustomDialog()
     delete ui;
 }
 
-void CustomDialog::setDialogFlags()
-{
-    setWindowFlag(Qt::WindowContextHelpButtonHint, false);
-}
-
-void CustomDialog::connectButtons()
-{
-    connect(ui->pDoneButton, &QPushButton::clicked, this, &CustomDialog::closeDialog);
-}
-
 void CustomDialog::showDialog()
 {
     isNeedSet = false;
-    QDialog::exec();
+    exec();
 }
 
 void CustomDialog::closeDialog()
 {
     isNeedSet = true;
-    QDialog::close();
+    close();
 }
 
 bool CustomDialog::getIsNeedSet()
@@ -56,5 +45,5 @@ int CustomDialog::getInputMineCount()
     {
         return ui->pWidthSpinBox->value() * ui->pHeightSpinBox->value() - 1;
     }
-    else { return ui->pMineSpinBox->value(); }
+    return ui->pMineSpinBox->value();
 }

@@ -4,56 +4,56 @@
 #include <QWidget>
 #include <QPainter>
 
-#include "Models/MineSweeper.h"
+#include "Games/MainGame.h"
 
 class GameImages
 {
-    public:
-        static const int NUMBER_COUNT = 8;
+    private:
+        static constexpr int NUMBER_COUNT = 8;
 
     public:
-        QPixmap block;
-        QPixmap cover;
-        QPixmap error;
-        QPixmap mine;
-        QPixmap mineError;
-        QPixmap flag;
-        QPixmap number[NUMBER_COUNT];
+        QPixmap* pBlockPixmap;
+        QPixmap* pCoverPixmap;
+        QPixmap* pErrorPixmap;
+        QPixmap* pFlagPixmap;
+        QPixmap* pMinePixmap;
+        QPixmap* pMineErrorPixmap;
+        QPixmap* pNumberPixmaps[NUMBER_COUNT];
+
+    public:
+        GameImages();
+        ~GameImages();
 };
 
 class GameColors
 {
-    public:
-        static const unsigned int WHITE = 0xFFFFFFFF;
-        static const unsigned int BLACK = 0xFF353535;
-        static const unsigned int GRAY = 0xFF606060;
+    private:
+        static constexpr unsigned BLACK = 0xFF353535;
+        static constexpr unsigned GRAY = 0xFF606060;
 
     public:
-        QColor white;
-        QColor black;
-        QColor gray;
+        QBrush* pBlackBrush;
+        QBrush* pGrayBrush;
+
+    public:
+        GameColors();
+        ~GameColors();
 };
 
 class GraphicsWidget : public QWidget
 {
     private:
-        static const int MARGIN = 12;
-        static const int OUTER_BORDER = 6;
-        static const int INNER_BORDER = 1;
+        static constexpr int MARGIN = 10;
+        static constexpr int OUTER_BORDER = 5;
+        static constexpr int INNER_BORDER = 1;
 
     private:
-        MainGame* pGame;
+        MainGame* pMainGame;
+        GameImages* pImages;
+        GameColors* pColors;
 
     private:
-        GameImages images;
-        GameColors colors;
-
-    private:
-        void loadImages();
-        void initColors();
-
-    private:
-        void paintEvent(QPaintEvent* pPaintEvent);
+        void paintEvent(QPaintEvent*) override;
 
     private:
         void paintBackgroundOuter(QPainter& painter);
@@ -67,8 +67,9 @@ class GraphicsWidget : public QWidget
 
     public:
         GraphicsWidget(QWidget* parent = nullptr);
+        ~GraphicsWidget();
 
     public:
-        void setGame(MainGame* pGame);
+        void setMainGame(MainGame* pMainGame);
 };
 #endif
