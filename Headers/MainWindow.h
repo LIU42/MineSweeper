@@ -9,7 +9,7 @@
 #include <QStyle>
 #include <QScreen>
 
-#include "Models/MineSweeper.h"
+#include "Games/MainGame.h"
 #include "Dialogs/About.h"
 #include "Dialogs/Custom.h"
 #include "Dialogs/Record.h"
@@ -26,21 +26,42 @@ QT_END_NAMESPACE
 
 class GameTimers
 {
-    public:
-        static const int GAME_FPS = 10;
-        static const int CLOCK_INTERVAL = 1000;
+    private:
+        static constexpr int FRAME_INTERVAL = 100;
+        static constexpr int CLOCK_INTERVAL = 1000;
 
     public:
-        QTimer interval;
-        QTimer clock;
+        QTimer* pFrameTimer;
+        QTimer* pClockTimer;
+
+    public:
+        GameTimers();
+        ~GameTimers();
 };
 
 class GameAudio
 {
     public:
-        QSoundEffect click;
-        QSoundEffect failure;
-        QSoundEffect success;
+        QSoundEffect* pClickSound;
+        QSoundEffect* pFailureSound;
+        QSoundEffect* pSuccessSound;
+
+    public:
+        GameAudio();
+        ~GameAudio();
+};
+
+class GameDialogs
+{
+    public:
+        AboutDialog* pAboutDialog;
+        CustomDialog* pCustomDialog;
+        RecordDialog* pRecordDialog;
+        SuccessDialog* pSuccessDialog;
+
+    public:
+        GameDialogs(QWidget* parent = nullptr);
+        ~GameDialogs();
 };
 
 class MainWindow : public QMainWindow
@@ -48,20 +69,17 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     private:
-        static const int MARGIN_X = 12;
-        static const int MARGIN_Y = 78;
+        static constexpr int MARGIN_X = 10;
+        static constexpr int MARGIN_Y = 74;
 
     private:
         Ui::MainWindow* ui;
-        MainGame* pGame;
-        AboutDialog* pAboutDialog;
-        CustomDialog* pCustomDialog;
-        SuccessDialog* pSuccessDialog;
-        RecordDialog* pRecordDialog;
 
     private:
-        GameTimers timers;
-        GameAudio audio;
+        MainGame* pMainGame;
+        GameTimers* pTimers;
+        GameAudio* pAudio;
+        GameDialogs* pDialogs;
 
     private:
         int screenWidth;
@@ -76,33 +94,29 @@ class MainWindow : public QMainWindow
         void resizeWindow();
 
     private:
-        void loadAudio();
         void mainInterval();
         void clockCallback();
-        void setInterval();
         void connectTimer();
         void connectAction();
-        void startTimer();
 
     private:
-        void gameRestart();
-        void gamePause();
+        void restartGame();
+        void pauseGame();
         void gameoverSuccess();
-        void gameAutoPause();
-        void gameAutoUncoverBlocks();
+        void pauseIfMinimized();
+        void uncoverEmptyBlocks();
         void updateGameInfo();
 
     private:
-        void mousePressEvent(QMouseEvent* pMouseEvent);
-        void keyPressEvent(QKeyEvent* pKeyEvent);
-        void keyReleaseEvent(QKeyEvent* pKeyEvent);
+        void mousePressEvent(QMouseEvent* pMouseEvent) override;
+        void keyPressEvent(QKeyEvent* pKeyEvent) override;
+        void keyReleaseEvent(QKeyEvent* pKeyEvent) override;
 
     public:
         MainWindow(QWidget* parent = nullptr);
         ~MainWindow();
 
     public:
-        void setGame(MainGame* pGame);
-        void initialize();
+        void init();
 };
 #endif

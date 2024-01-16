@@ -4,8 +4,7 @@
 SuccessDialog::SuccessDialog(QWidget* parent) : QDialog(parent), ui(new Ui::SuccessDialog)
 {
     ui->setupUi(this);
-    setDialogFlags();
-    connectButtons();
+    connect(ui->pDoneButton, &QPushButton::clicked, this, &SuccessDialog::colseDialog);
 }
 
 SuccessDialog::~SuccessDialog()
@@ -13,34 +12,24 @@ SuccessDialog::~SuccessDialog()
     delete ui;
 }
 
-void SuccessDialog::setDialogFlags()
-{
-    setWindowFlag(Qt::WindowContextHelpButtonHint, false);
-}
-
-void SuccessDialog::connectButtons()
-{
-    connect(ui->pDoneButton, &QPushButton::clicked, this, &SuccessDialog::colseDialog);
-}
-
 void SuccessDialog::showDialog()
 {
     isNeedSave = false;
-    QDialog::exec();
+    exec();
 }
 
 void SuccessDialog::colseDialog()
 {
     isNeedSave = true;
-    QDialog::close();
-}
-
-bool SuccessDialog::getIsNeedSave()
-{
-    return isNeedSave;
+    close();
 }
 
 QString SuccessDialog::getInputName()
 {
     return ui->pNameLineEdit->text();
+}
+
+bool SuccessDialog::getIsNeedSave()
+{
+    return isNeedSave;
 }

@@ -18,11 +18,9 @@ class CustomDialog : public QDialog
 
     private:
         Ui::CustomDialog* ui;
-        bool isNeedSet;
 
     private:
-        void setDialogFlags();
-        void connectButtons();
+        bool isNeedSet;
 
     public:
         CustomDialog(QWidget* parent = nullptr);

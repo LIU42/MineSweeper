@@ -1,52 +1,78 @@
 #include "Graphics.h"
 
-GraphicsWidget::GraphicsWidget(QWidget* parent): QWidget(parent)
+GameImages::GameImages()
 {
-    loadImages();
-    initColors();
-}
-
-void GraphicsWidget::setGame(MainGame* pGame)
-{
-    this->pGame = pGame;
-}
-
-void GraphicsWidget::loadImages()
-{
-    images.block.load(":/Images/block.png");
-    images.cover.load(":/Images/cover.png");
-    images.error.load(":/Images/error.png");
-    images.mine.load(":/Images/mine.png");
-    images.mineError.load(":/Images/mine_error.png");
-    images.flag.load(":/Images/flag.png");
+    pBlockPixmap = new QPixmap(":/Images/block.png");
+    pCoverPixmap = new QPixmap(":/Images/cover.png");
+    pErrorPixmap = new QPixmap(":/Images/error.png");
+    pFlagPixmap = new QPixmap(":/Images/flag.png");
+    pMinePixmap = new QPixmap(":/Images/mine.png");
+    pMineErrorPixmap = new QPixmap(":/Images/mine_error.png");
 
     for (int i = 0; i < GameImages::NUMBER_COUNT; i++)
     {
-        images.number[i].load(QString(":/Images/number_%1.png").arg(i + 1));
+        pNumberPixmaps[i] = new QPixmap(QString(":/Images/number_%1.png").arg(i + 1));
     }
 }
 
-void GraphicsWidget::initColors()
+GameImages::~GameImages()
 {
-    colors.white.setRgb(GameColors::WHITE);
-    colors.black.setRgb(GameColors::BLACK);
-    colors.gray.setRgb(GameColors::GRAY);
+    delete pBlockPixmap;
+    delete pCoverPixmap;
+    delete pErrorPixmap;
+    delete pFlagPixmap;
+    delete pMinePixmap;
+    delete pMineErrorPixmap;
+
+    for (int i = 0; i < GameImages::NUMBER_COUNT; i++)
+    {
+        delete pNumberPixmaps[i];
+    }
+}
+
+GameColors::GameColors()
+{
+    pBlackBrush = new QBrush(QColor(GameColors::BLACK));
+    pGrayBrush = new QBrush(QColor(GameColors::GRAY));
+}
+
+GameColors::~GameColors()
+{
+    delete pBlackBrush;
+    delete pGrayBrush;
+}
+
+GraphicsWidget::GraphicsWidget(QWidget* parent): QWidget(parent)
+{
+    pImages = new GameImages();
+    pColors = new GameColors();
+}
+
+GraphicsWidget::~GraphicsWidget()
+{
+    delete pImages;
+    delete pColors;
+}
+
+void GraphicsWidget::setMainGame(MainGame* pMainGame)
+{
+    this->pMainGame = pMainGame;
 }
 
 void GraphicsWidget::paintBackgroundOuter(QPainter& painter)
 {
-    int width = pGame->getTableRows() * GameBlock::SIZE + OUTER_BORDER + OUTER_BORDER;
-    int height = pGame->getTableCols() * GameBlock::SIZE + OUTER_BORDER + OUTER_BORDER;
+    int width = pMainGame->getTableRows() * GameBlock::SIZE + OUTER_BORDER + OUTER_BORDER;
+    int height = pMainGame->getTableCols() * GameBlock::SIZE + OUTER_BORDER + OUTER_BORDER;
 
-    painter.fillRect(MARGIN - OUTER_BORDER, MARGIN - OUTER_BORDER, width, height, QBrush(colors.black));
+    painter.fillRect(MARGIN - OUTER_BORDER, MARGIN - OUTER_BORDER, width, height, *pColors->pBlackBrush);
 }
 
 void GraphicsWidget::paintBackgroundInner(QPainter& painter)
 {
-    int width = pGame->getTableRows() * GameBlock::SIZE + INNER_BORDER + INNER_BORDER;
-    int height = pGame->getTableCols() * GameBlock::SIZE + INNER_BORDER + INNER_BORDER;
+    int width = pMainGame->getTableRows() * GameBlock::SIZE + INNER_BORDER + INNER_BORDER;
+    int height = pMainGame->getTableCols() * GameBlock::SIZE + INNER_BORDER + INNER_BORDER;
 
-    painter.fillRect(MARGIN - INNER_BORDER, MARGIN - INNER_BORDER, width, height, QBrush(colors.gray));
+    painter.fillRect(MARGIN - INNER_BORDER, MARGIN - INNER_BORDER, width, height, *pColors->pGrayBrush);
 }
 
 void GraphicsWidget::paintBackground(QPainter& painter)
@@ -57,52 +83,52 @@ void GraphicsWidget::paintBackground(QPainter& painter)
 
 void GraphicsWidget::paintBlocksCovered(QPainter& painter, GameBlock& block, int x, int y)
 {
-    if (block.isCovered && !pGame->getIsCracked())
+    if (block.isCovered && !pMainGame->getIsCracked())
     {
-        painter.drawPixmap(x, y, images.cover);
+        painter.drawPixmap(x, y, *pImages->pCoverPixmap);
 
         if (block.isError)
         {
-            painter.drawPixmap(x, y, images.error);
+            painter.drawPixmap(x, y, *pImages->pErrorPixmap);
         }
         else if (block.isMarked)
         {
-            painter.drawPixmap(x, y, images.flag);
+            painter.drawPixmap(x, y, *pImages->pFlagPixmap);
         }
     }
 }
 
 void GraphicsWidget::paintBlocksUncovered(QPainter& painter, GameBlock& block, int x, int y)
 {
-    if (!block.isCovered || pGame->getIsCracked())
+    if (!block.isCovered || pMainGame->getIsCracked())
     {
-        painter.drawPixmap(x, y, images.block);
+        painter.drawPixmap(x, y, *pImages->pBlockPixmap);
 
-        if (block.type == BLOCK_NUMBER)
+        if (block.type == BlockType::BLOCK_NUMBER)
         {
-            painter.drawPixmap(x, y, images.number[block.number - 1]);
+            painter.drawPixmap(x, y, *pImages->pNumberPixmaps[block.number - 1]);
         }
-        else if (block.type == BLOCK_MINE)
+        else if (block.type == BlockType::BLOCK_MINE)
         {
-            painter.drawPixmap(x, y, (block.isTouched) ? images.mineError : images.mine);
+            painter.drawPixmap(x, y, (block.isTouched) ? *pImages->pMineErrorPixmap : *pImages->pMinePixmap);
         }
     }
 }
 
 void GraphicsWidget::paintBlocks(QPainter& painter)
 {
-    for (int i = 0; i < pGame->getTableRows(); i++)
+    for (int rows = 0; rows < pMainGame->getTableRows(); rows++)
     {
-        for (int j = 0; j < pGame->getTableCols(); j++)
+        for (int cols = 0; cols < pMainGame->getTableCols(); cols++)
         {
-            GameBlock block = pGame->getBlock(i, j);
+            GameBlock& block = pMainGame->getBlock(rows, cols);
 
-            int x = MARGIN + i * GameBlock::SIZE;
-            int y = MARGIN + j * GameBlock::SIZE;
+            int x = MARGIN + rows * GameBlock::SIZE;
+            int y = MARGIN + cols * GameBlock::SIZE;
 
-            if (pGame->getStatus() == STATUS_PAUSE)
+            if (pMainGame->getStatus() == GameStatus::STATUS_PAUSE)
             {
-                painter.drawPixmap(x, y, images.cover);
+                painter.drawPixmap(x, y, *pImages->pCoverPixmap);
                 continue;
             }
             paintBlocksCovered(painter, block, x, y);
@@ -111,11 +137,11 @@ void GraphicsWidget::paintBlocks(QPainter& painter)
     }
 }
 
-void GraphicsWidget::paintEvent(QPaintEvent* pPaintEvent)
+void GraphicsWidget::paintEvent(QPaintEvent*)
 {
-    Q_UNUSED(pPaintEvent);
     QPainter painter(this);
 
+    painter.setRenderHints(QPainter::SmoothPixmapTransform);
     paintBackground(painter);
     paintBlocks(painter);
 }

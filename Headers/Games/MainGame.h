@@ -1,13 +1,11 @@
-#ifndef __MODELS_MINESWEEPER_H__
-#define __MODELS_MINESWEEPER_H__
+#ifndef __GAMES_MAINGAME_H__
+#define __GAMES_MAINGAME_H__
 
-#include <QVector>
+#include <QRandomGenerator>
+#include <QList>
 #include <QPoint>
 
-using BlockPointList = QVector<QPoint>;
-using NumberList = QVector<int>;
-
-enum GameStatus
+enum class GameStatus
 {
     STATUS_MAINLOOP,
     STATUS_PAUSE,
@@ -15,7 +13,7 @@ enum GameStatus
     STATUS_SUCCESS
 };
 
-enum GameLevel
+enum class GameLevel
 {
     LEVEL_EASY,
     LEVEL_NORMAL,
@@ -23,7 +21,7 @@ enum GameLevel
     LEVEL_CUSTOM
 };
 
-enum GameBlockType
+enum class BlockType
 {
     BLOCK_EMPTY,
     BLOCK_NUMBER,
@@ -33,36 +31,34 @@ enum GameBlockType
 class GameEasyLevel
 {
     public:
-        static const int ROWS = 10;
-        static const int COLS = 10;
-        static const int MINE_INIT_COUNT = 10;
+        static constexpr int ROWS = 10;
+        static constexpr int COLS = 10;
+        static constexpr int MINE_INIT_COUNT = 10;
 };
 
 class GameNormalLevel
 {
     public:
-        static const int ROWS = 15;
-        static const int COLS = 15;
-        static const int MINE_INIT_COUNT = 30;
+        static constexpr int ROWS = 15;
+        static constexpr int COLS = 15;
+        static constexpr int MINE_INIT_COUNT = 30;
 };
 
 class GameHighLevel
 {
     public:
-        static const int ROWS = 30;
-        static const int COLS = 20;
-        static const int MINE_INIT_COUNT = 100;
+        static constexpr int ROWS = 30;
+        static constexpr int COLS = 20;
+        static constexpr int MINE_INIT_COUNT = 100;
 };
 
 class GameBlock
 {
     public:
-        static const int SIZE = 32;
+        static constexpr int SIZE = 26;
 
     public:
-        GameBlockType type;
-
-    public:
+        BlockType type;
         int number;
         bool isCovered;
         bool isMarked;
@@ -73,16 +69,18 @@ class GameBlock
 class MainGame
 {
     private:
-        static const int ROWS_MAX = 40;
-        static const int COLS_MAX = 25;
+        static constexpr int ROWS_MAX = 40;
+        static constexpr int COLS_MAX = 25;
 
     private:
         GameBlock blockMatrix[ROWS_MAX][COLS_MAX];
-        BlockPointList mineList;
-        BlockPointList emptyList;
-        NumberList numberList;
         GameStatus status;
         GameLevel level;
+
+    private:
+        QList<QPoint> minePositionList;
+        QList<QPoint> emptyPositionList;
+        QList<int> indexList;
 
     private:
         int tableRows;
@@ -108,14 +106,14 @@ class MainGame
         void restart();
         void addMines();
         void addNumbers();
-        void autoUncoverBlocks();
+        void uncoverEmptyBlocks();
 
     public:
         bool isLeftButtonClick(int x, int y);
         bool isRightButtonClick(int x, int y);
 
     public:
-        GameBlock getBlock(int x, int y);
+        GameBlock& getBlock(int x, int y);
         GameLevel getLevel();
         GameStatus getStatus();
 
