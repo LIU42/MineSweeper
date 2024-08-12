@@ -1,8 +1,6 @@
 # Mine Sweeper
 
-C++ Qt 课程设计项目
-
-Windows 经典扫雷小游戏
+**C++ Qt 课程设计项目 Windows 经典扫雷小游戏**
 
 基本功能：
 

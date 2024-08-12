@@ -15,33 +15,38 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-INCLUDEPATH += $$PWD/Headers/
+INCLUDEPATH += $$PWD/include/
 
 SOURCES += \
-	Sources/Dialogs/About.cpp \
-	Sources/Dialogs/Custom.cpp \
-	Sources/Dialogs/Record.cpp \
-	Sources/Dialogs/Success.cpp \
-	Sources/Graphics.cpp \
-	Sources/Main.cpp \
-	Sources/MainWindow.cpp \
-	Sources/Games/MainGame.cpp
+	src/cores/block.cpp \
+	src/views/dialogs/aboutdialog.cpp \
+	src/views/dialogs/customdialog.cpp \
+	src/views/dialogs/recorddialog.cpp \
+	src/views/dialogs/successdialog.cpp \
+	src/views/widgets/scenewidget.cpp \
+	src/main.cpp \
+	src/views/mainwindow.cpp \
+	src/cores/controller.cpp \
+	src/commons/resources.cpp
 
 HEADERS += \
-	Headers/Dialogs/About.h \
-	Headers/Dialogs/Custom.h \
-	Headers/Dialogs/Record.h \
-	Headers/Dialogs/Success.h \
-	Headers/Graphics.h \
-	Headers/MainWindow.h \
-	Headers/Games/MainGame.h
+	include/cores/block.h \
+	include/views/dialogs/aboutdialog.h \
+	include/views/dialogs/customdialog.h \
+	include/views/dialogs/recorddialog.h \
+	include/views/dialogs/successdialog.h \
+	include/views/widgets/scenewidget.h \
+	include/views/mainwindow.h \
+	include/cores/controller.h \
+	include/commons/resources.h \
+	include/commons/constants.h
 
 FORMS += \
-	Forms/Dialogs/About.ui \
-	Forms/Dialogs/Custom.ui \
-	Forms/Dialogs/Record.ui \
-	Forms/Dialogs/Success.ui \
-	Forms/MainWindow.ui
+	ui/dialogs/aboutdialog.ui \
+	ui/dialogs/customdialog.ui \
+	ui/dialogs/recorddialog.ui \
+	ui/dialogs/successdialog.ui \
+	ui/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -49,6 +54,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    Resources/Resources.qrc
+    res/resources.qrc
 
-RC_ICONS = Resources/Images/icon.ico
+RC_ICONS = res/images/icon.ico
