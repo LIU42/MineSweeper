@@ -1,5 +1,5 @@
-#ifndef __CORES_CONTROLLER_H__
-#define __CORES_CONTROLLER_H__
+#ifndef __CORES_ENVIRONMENT_H__
+#define __CORES_ENVIRONMENT_H__
 
 #include <QRandomGenerator>
 #include <QList>
@@ -16,7 +16,7 @@ enum class GameStatus
     SUCCESS,
 };
 
-class GameController
+class GameEnvironment
 {
     private:
         MineBlock blocks[SceneProperties::ROWS_MAX][SceneProperties::COLS_MAX];

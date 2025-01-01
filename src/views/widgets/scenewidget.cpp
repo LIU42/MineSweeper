@@ -2,13 +2,13 @@
 
 SceneWidget::SceneWidget(QWidget* parent): QWidget(parent)
 {
-    pGameController = nullptr;
+    pGameEnvironment = nullptr;
     pGameResources = nullptr;
 }
 
-void SceneWidget::setGameController(GameController* pGameController)
+void SceneWidget::setGameEnvironment(GameEnvironment* pGameEnvironment)
 {
-    this->pGameController = pGameController;
+    this->pGameEnvironment = pGameEnvironment;
 }
 
 void SceneWidget::setGameResources(GameResources* pGameResources)
@@ -18,16 +18,16 @@ void SceneWidget::setGameResources(GameResources* pGameResources)
 
 void SceneWidget::paintOuterBackground(QPainter& painter)
 {
-    int w = pGameController->getRows() * SceneProperties::BLOCK_SIZE + SceneProperties::OUTER_BORDER * 2;
-    int h = pGameController->getCols() * SceneProperties::BLOCK_SIZE + SceneProperties::OUTER_BORDER * 2;
+    int w = pGameEnvironment->getRows() * SceneProperties::BLOCK_SIZE + SceneProperties::OUTER_BORDER * 2;
+    int h = pGameEnvironment->getCols() * SceneProperties::BLOCK_SIZE + SceneProperties::OUTER_BORDER * 2;
 
     painter.fillRect(SceneProperties::OUTER_MARGIN, SceneProperties::OUTER_MARGIN, w, h, *pGameResources->getBlackBrush());
 }
 
 void SceneWidget::paintInnerBackground(QPainter& painter)
 {
-    int w = pGameController->getRows() * SceneProperties::BLOCK_SIZE + SceneProperties::INNER_BORDER * 2;
-    int h = pGameController->getCols() * SceneProperties::BLOCK_SIZE + SceneProperties::INNER_BORDER * 2;
+    int w = pGameEnvironment->getRows() * SceneProperties::BLOCK_SIZE + SceneProperties::INNER_BORDER * 2;
+    int h = pGameEnvironment->getCols() * SceneProperties::BLOCK_SIZE + SceneProperties::INNER_BORDER * 2;
 
     painter.fillRect(SceneProperties::INNER_MARGIN, SceneProperties::INNER_MARGIN, w, h, *pGameResources->getGrayBrush());
 }
@@ -76,20 +76,20 @@ void SceneWidget::paintEvent(QPaintEvent*)
     paintOuterBackground(painter);
     paintInnerBackground(painter);
 
-    for (int rows = 0; rows < pGameController->getRows(); rows++)
+    for (int rows = 0; rows < pGameEnvironment->getRows(); rows++)
     {
-        for (int cols = 0; cols < pGameController->getCols(); cols++)
+        for (int cols = 0; cols < pGameEnvironment->getCols(); cols++)
         {
-            MineBlock& block = pGameController->getBlock(rows, cols);
+            MineBlock& block = pGameEnvironment->getBlock(rows, cols);
 
             int x = SceneProperties::MARGIN + rows * SceneProperties::BLOCK_SIZE;
             int y = SceneProperties::MARGIN + cols * SceneProperties::BLOCK_SIZE;
 
-            if (pGameController->getStatus() == GameStatus::PAUSE)
+            if (pGameEnvironment->getStatus() == GameStatus::PAUSE)
             {
                 painter.drawPixmap(x, y, *pGameResources->getCoverPixmap());
             }
-            else if (block.isCovered() && !pGameController->isCracking())
+            else if (block.isCovered() && !pGameEnvironment->isCracking())
             {
                 paintCoveredBlock(painter, block, x, y);
             }

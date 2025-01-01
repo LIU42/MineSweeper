@@ -5,12 +5,12 @@
 #include <QWidget>
 
 #include "commons/resources.h"
-#include "cores/controller.h"
+#include "cores/environment.h"
 
 class SceneWidget : public QWidget
 {
     private:
-        GameController* pGameController;
+        GameEnvironment* pGameEnvironment;
         GameResources* pGameResources;
 
     private:
@@ -28,7 +28,7 @@ class SceneWidget : public QWidget
         SceneWidget(QWidget* parent = nullptr);
 
     public:
-        void setGameController(GameController* pGameController);
+        void setGameEnvironment(GameEnvironment* pGameEnvironment);
         void setGameResources(GameResources* pGameResources);
 };
 #endif

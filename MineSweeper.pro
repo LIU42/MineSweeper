@@ -19,6 +19,7 @@ INCLUDEPATH += $$PWD/include/
 
 SOURCES += \
 	src/cores/block.cpp \
+	src/cores/environment.cpp \
 	src/views/dialogs/aboutdialog.cpp \
 	src/views/dialogs/customdialog.cpp \
 	src/views/dialogs/recorddialog.cpp \
@@ -26,18 +27,17 @@ SOURCES += \
 	src/views/widgets/scenewidget.cpp \
 	src/main.cpp \
 	src/views/mainwindow.cpp \
-	src/cores/controller.cpp \
 	src/commons/resources.cpp
 
 HEADERS += \
 	include/cores/block.h \
+	include/cores/environment.h \
 	include/views/dialogs/aboutdialog.h \
 	include/views/dialogs/customdialog.h \
 	include/views/dialogs/recorddialog.h \
 	include/views/dialogs/successdialog.h \
 	include/views/widgets/scenewidget.h \
 	include/views/mainwindow.h \
-	include/cores/controller.h \
 	include/commons/resources.h \
 	include/commons/constants.h
 

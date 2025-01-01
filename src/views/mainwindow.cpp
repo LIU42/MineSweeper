@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     pClockTimer->setInterval(WindowProperties::CLOCK_INTERVAL);
     pClockTimer->start();
 
-    pGameController = new GameController();
+    pGameEnvironment = new GameEnvironment();
     pGameResources = new GameResources();
 
     pAboutDialog = new AboutDialog(this);
@@ -21,14 +21,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     pSuccessDialog = new SuccessDialog(this);
 
     ui->setupUi(this);
-    ui->pSceneWidget->setGameController(pGameController);
+    ui->pSceneWidget->setGameEnvironment(pGameEnvironment);
     ui->pSceneWidget->setGameResources(pGameResources);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete pGameController;
+    delete pGameEnvironment;
     delete pGameResources;
 
     delete pFrameTimer;
@@ -49,21 +49,21 @@ void MainWindow::init()
 
 void MainWindow::setLevel1()
 {
-    pGameController->setLevel1();
+    pGameEnvironment->setLevel1();
     resizeWindow();
     restart();
 }
 
 void MainWindow::setLevel2()
 {
-    pGameController->setLevel2();
+    pGameEnvironment->setLevel2();
     resizeWindow();
     restart();
 }
 
 void MainWindow::setLevel3()
 {
-    pGameController->setLevel3();
+    pGameEnvironment->setLevel3();
     resizeWindow();
     restart();
 }
@@ -77,7 +77,7 @@ void MainWindow::setCustomLevel()
         int rows = pCustomDialog->getInputRows();
         int cols = pCustomDialog->getInputCols();
 
-        pGameController->setCustomLevel(rows, cols, pCustomDialog->getInputMineCount());
+        pGameEnvironment->setCustomLevel(rows, cols, pCustomDialog->getInputMineCount());
         resizeWindow();
         restart();
     }
@@ -85,8 +85,8 @@ void MainWindow::setCustomLevel()
 
 void MainWindow::resizeWindow()
 {
-    int rows = pGameController->getRows();
-    int cols = pGameController->getCols();
+    int rows = pGameEnvironment->getRows();
+    int cols = pGameEnvironment->getCols();
 
     windowWidth = rows * SceneProperties::BLOCK_SIZE + WindowProperties::MARGIN_X + WindowProperties::MARGIN_X;
     windowHeight = cols * SceneProperties::BLOCK_SIZE + WindowProperties::MARGIN_X + WindowProperties::MARGIN_Y;
@@ -101,22 +101,22 @@ void MainWindow::setupTimers()
     {
         updateInfo();
 
-        if (pGameController->getStatus() == GameStatus::PLAYING)
+        if (pGameEnvironment->getStatus() == GameStatus::PLAYING)
         {
             judgeSuccess();
 
             if (isMinimized())
             {
-                pGameController->setPause();
+                pGameEnvironment->setPause();
             }
-            pGameController->uncoverEmptyBlocks();
+            pGameEnvironment->uncoverEmptyBlocks();
         }
         ui->pSceneWidget->update();
     });
 
     connect(pClockTimer, &QTimer::timeout, this, [=]
     {
-        if (pGameController->getStatus() == GameStatus::PLAYING)
+        if (pGameEnvironment->getStatus() == GameStatus::PLAYING)
         {
             elapseTime += 1;
         }
@@ -147,7 +147,7 @@ void MainWindow::setupActions()
 
     connect(ui->pActionPause, &QAction::triggered, this, [=]
     {
-        pGameController->setPause();
+        pGameEnvironment->setPause();
     });
 
     connect(ui->pActionRestart, &QAction::triggered, this, [=]
@@ -170,21 +170,21 @@ void MainWindow::updateInfo()
 {
     ui->pTimeLabel->setText(QString("TIME: %1").arg(elapseTime));
 
-    if (pGameController->getStatus() == GameStatus::PAUSE)
+    if (pGameEnvironment->getStatus() == GameStatus::PAUSE)
     {
         ui->pTimeLabel->setText(ui->pTimeLabel->text().append(" (PAUSE)"));
     }
-    if (pGameController->getStatus() == GameStatus::FAILURE)
+    if (pGameEnvironment->getStatus() == GameStatus::FAILURE)
     {
         ui->pMineLabel->setText("BOOM!");
     }
-    else if (pGameController->getStatus() == GameStatus::SUCCESS)
+    else if (pGameEnvironment->getStatus() == GameStatus::SUCCESS)
     {
         ui->pMineLabel->setText("Success!");
     }
     else
     {
-        ui->pMineLabel->setText(QString("MINES: %1").arg(pGameController->getRemainFlagCount()));
+        ui->pMineLabel->setText(QString("MINES: %1").arg(pGameEnvironment->getRemainFlagCount()));
     }
 }
 
@@ -195,21 +195,21 @@ void MainWindow::restart()
     pGameResources->getClickSound()->stop();
     pGameResources->getClickSound()->play();
 
-    pGameController->restart();
-    pGameController->addMines();
-    pGameController->addNumbers();
+    pGameEnvironment->restart();
+    pGameEnvironment->addMines();
+    pGameEnvironment->addNumbers();
 }
 
 void MainWindow::judgeSuccess()
 {
-    if (!pGameController->isSuccess())
+    if (!pGameEnvironment->isSuccess())
     {
         return;
     }
     pGameResources->getSuccessSound()->stop();
     pGameResources->getSuccessSound()->play();
 
-    if (pGameController->getLevel() == GameLevel::CUSTOM || pGameController->isCracked())
+    if (pGameEnvironment->getLevel() == GameLevel::CUSTOM || pGameEnvironment->isCracked())
     {
         return;
     }
@@ -217,17 +217,17 @@ void MainWindow::judgeSuccess()
 
     if (pSuccessDialog->isNeedSave())
     {
-        pRecordDialog->addRecord(pSuccessDialog->getInputName(), elapseTime, pGameController->getLevel());
+        pRecordDialog->addRecord(pSuccessDialog->getInputName(), elapseTime, pGameEnvironment->getLevel());
     }
 }
 
 void MainWindow::mousePressEvent(QMouseEvent* pMouseEvent)
 {
-    if (!pMouseEvent->button() || pGameController->isCracking())
+    if (!pMouseEvent->button() || pGameEnvironment->isCracking())
     {
         return;
     }
-    if (pGameController->getStatus() == GameStatus::PLAYING)
+    if (pGameEnvironment->getStatus() == GameStatus::PLAYING)
     {
         QPoint mouse = pMouseEvent->pos();
 
@@ -242,9 +242,9 @@ void MainWindow::mousePressEvent(QMouseEvent* pMouseEvent)
         int x = (mouse.x() - WindowProperties::MARGIN_X) / SceneProperties::BLOCK_SIZE;
         int y = (mouse.y() - WindowProperties::MARGIN_Y) / SceneProperties::BLOCK_SIZE;
 
-        if (pMouseEvent->button() == Qt::LeftButton && pGameController->leftButtonClick(x, y))
+        if (pMouseEvent->button() == Qt::LeftButton && pGameEnvironment->leftButtonClick(x, y))
         {
-            if (pGameController->isFailure(x, y))
+            if (pGameEnvironment->isFailure(x, y))
             {
                 pGameResources->getFailureSound()->stop();
                 pGameResources->getFailureSound()->play();
@@ -255,17 +255,17 @@ void MainWindow::mousePressEvent(QMouseEvent* pMouseEvent)
                 pGameResources->getClickSound()->play();
             }
         }
-        else if (pMouseEvent->button() == Qt::RightButton && pGameController->rightButtonClick(x, y))
+        else if (pMouseEvent->button() == Qt::RightButton && pGameEnvironment->rightButtonClick(x, y))
         {
             pGameResources->getClickSound()->stop();
             pGameResources->getClickSound()->play();
         }
     }
-    else if (pGameController->getStatus() == GameStatus::PAUSE)
+    else if (pGameEnvironment->getStatus() == GameStatus::PAUSE)
     {
         pGameResources->getClickSound()->stop();
         pGameResources->getClickSound()->play();
-        pGameController->setResume();
+        pGameEnvironment->setResume();
     }
     else
     {
@@ -277,22 +277,22 @@ void MainWindow::keyPressEvent(QKeyEvent* pKeyEvent)
 {
     if (pKeyEvent->key() == Qt::Key_P)
     {
-        pGameController->setPause();
+        pGameEnvironment->setPause();
     }
     else if (pKeyEvent->key() == Qt::Key_R)
     {
         restart();
     }
-    else if (pKeyEvent->key() == Qt::Key_Z && pGameController->getStatus() == GameStatus::PLAYING)
+    else if (pKeyEvent->key() == Qt::Key_Z && pGameEnvironment->getStatus() == GameStatus::PLAYING)
     {
-        pGameController->setCrackStart();
+        pGameEnvironment->setCrackStart();
     }
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent* pKeyEvent)
 {
-    if (pKeyEvent->key() == Qt::Key_Z && pGameController->getStatus() == GameStatus::PLAYING)
+    if (pKeyEvent->key() == Qt::Key_Z && pGameEnvironment->getStatus() == GameStatus::PLAYING)
     {
-        pGameController->setCrackEnd();
+        pGameEnvironment->setCrackEnd();
     }
 }

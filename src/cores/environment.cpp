@@ -1,6 +1,6 @@
-#include "cores/controller.h"
+#include "cores/environment.h"
 
-void GameController::setLevel1()
+void GameEnvironment::setLevel1()
 {
     this->level = GameLevel::LEVEL1;
     this->rows = Level1::ROWS;
@@ -8,7 +8,7 @@ void GameController::setLevel1()
     this->mineInitCount = Level1::MINE_INIT_COUNT;
 }
 
-void GameController::setLevel2()
+void GameEnvironment::setLevel2()
 {
     this->level = GameLevel::LEVEL2;
     this->rows = Level2::ROWS;
@@ -16,7 +16,7 @@ void GameController::setLevel2()
     this->mineInitCount = Level2::MINE_INIT_COUNT;
 }
 
-void GameController::setLevel3()
+void GameEnvironment::setLevel3()
 {
     this->level = GameLevel::LEVEL3;
     this->rows = Level3::ROWS;
@@ -24,7 +24,7 @@ void GameController::setLevel3()
     this->mineInitCount = Level3::MINE_INIT_COUNT;
 }
 
-void GameController::setCustomLevel(int rows, int cols, int mineCount)
+void GameEnvironment::setCustomLevel(int rows, int cols, int mineCount)
 {
     this->level = GameLevel::CUSTOM;
     this->rows = rows;
@@ -32,17 +32,17 @@ void GameController::setCustomLevel(int rows, int cols, int mineCount)
     this->mineInitCount = mineCount;
 }
 
-int GameController::getRows()
+int GameEnvironment::getRows()
 {
     return rows;
 }
 
-int GameController::getCols()
+int GameEnvironment::getCols()
 {
     return cols;
 }
 
-void GameController::setPause()
+void GameEnvironment::setPause()
 {
     if (status == GameStatus::PLAYING && !cracking)
     {
@@ -50,7 +50,7 @@ void GameController::setPause()
     }
 }
 
-void GameController::setResume()
+void GameEnvironment::setResume()
 {
     if (status == GameStatus::PAUSE)
     {
@@ -58,18 +58,18 @@ void GameController::setResume()
     }
 }
 
-void GameController::setCrackStart()
+void GameEnvironment::setCrackStart()
 {
     cracking = true;
     cracked = true;
 }
 
-void GameController::setCrackEnd()
+void GameEnvironment::setCrackEnd()
 {
     cracking = false;
 }
 
-void GameController::restart()
+void GameEnvironment::restart()
 {
     status = GameStatus::PLAYING;
     cracking = false;
@@ -85,7 +85,7 @@ void GameController::restart()
     remainFlagCount = mineInitCount;
 }
 
-void GameController::addMines()
+void GameEnvironment::addMines()
 {
     QList<int> flattenIndices(rows * cols);
 
@@ -110,7 +110,7 @@ void GameController::addMines()
     }
 }
 
-void GameController::addNumbers()
+void GameEnvironment::addNumbers()
 {
     for (QPoint& location : minesLocations)
     {
@@ -130,7 +130,7 @@ void GameController::addNumbers()
     }
 }
 
-void GameController::uncoverEmptyBlocks()
+void GameEnvironment::uncoverEmptyBlocks()
 {
     emptyLocations.clear();
 
@@ -162,22 +162,22 @@ void GameController::uncoverEmptyBlocks()
     }
 }
 
-MineBlock& GameController::getBlock(int x, int y)
+MineBlock& GameEnvironment::getBlock(int x, int y)
 {
     return blocks[x][y];
 }
 
-int GameController::getLevel()
+int GameEnvironment::getLevel()
 {
     return level;
 }
 
-GameStatus GameController::getStatus()
+GameStatus GameEnvironment::getStatus()
 {
     return status;
 }
 
-bool GameController::leftButtonClick(int x, int y)
+bool GameEnvironment::leftButtonClick(int x, int y)
 {
     if (blocks[x][y].isCovered() && !blocks[x][y].isMarked())
     {
@@ -187,7 +187,7 @@ bool GameController::leftButtonClick(int x, int y)
     return false;
 }
 
-bool GameController::rightButtonClick(int x, int y)
+bool GameEnvironment::rightButtonClick(int x, int y)
 {
     if (blocks[x][y].isCovered())
     {
@@ -206,22 +206,22 @@ bool GameController::rightButtonClick(int x, int y)
     return false;
 }
 
-int GameController::getRemainFlagCount()
+int GameEnvironment::getRemainFlagCount()
 {
     return remainFlagCount;
 }
 
-bool GameController::isCracking()
+bool GameEnvironment::isCracking()
 {
     return cracking;
 }
 
-bool GameController::isCracked()
+bool GameEnvironment::isCracked()
 {
     return cracked;
 }
 
-bool GameController::isSuccess()
+bool GameEnvironment::isSuccess()
 {
     for (int x = 0; x < rows; x++)
     {
@@ -237,7 +237,7 @@ bool GameController::isSuccess()
     return true;
 }
 
-bool GameController::isFailure(int x, int y)
+bool GameEnvironment::isFailure(int x, int y)
 {
     if (blocks[x][y].getType() != BlockType::MINE)
     {
