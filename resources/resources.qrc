@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/icon.ico</file>
+        <file>images/uncover.png</file>
+        <file>images/cover.png</file>
+        <file>images/error.png</file>
+        <file>images/flag.png</file>
+        <file>images/mine.png</file>
+        <file>images/touch.png</file>
+        <file>images/number_1.png</file>
+        <file>images/number_2.png</file>
+        <file>images/number_3.png</file>
+        <file>images/number_4.png</file>
+        <file>images/number_5.png</file>
+        <file>images/number_6.png</file>
+        <file>images/number_7.png</file>
+        <file>images/number_8.png</file>
+        <file>images/title.png</file>
+        <file>sounds/click.wav</file>
+        <file>sounds/failure.wav</file>
+        <file>sounds/success.wav</file>
+    </qresource>
+</RCC>

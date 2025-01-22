@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CustomDialog</class>
+ <widget class="QDialog" name="CustomDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>280</width>
+    <height>160</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>280</width>
+    <height>160</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>280</width>
+    <height>160</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>自定义 Mine Sweeper</string>
+  </property>
+  <widget class="QPushButton" name="doneButton">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>121</y>
+     <width>64</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="rowsLabel">
+   <property name="geometry">
+    <rect>
+     <x>24</x>
+     <y>24</y>
+     <width>160</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>请输入界面宽度（10~40）</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="colsLabel">
+   <property name="geometry">
+    <rect>
+     <x>24</x>
+     <y>48</y>
+     <width>160</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>请输入界面高度（10~25）</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="mineLabel">
+   <property name="geometry">
+    <rect>
+     <x>24</x>
+     <y>72</y>
+     <width>160</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
+   </property>
+   <property name="text">
+    <string>请输入地雷数量（1~999）</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="rowsSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>192</x>
+     <y>22</y>
+     <width>64</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="buttonSymbols">
+    <enum>QAbstractSpinBox::UpDownArrows</enum>
+   </property>
+   <property name="minimum">
+    <number>10</number>
+   </property>
+   <property name="maximum">
+    <number>40</number>
+   </property>
+   <property name="value">
+    <number>15</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="colsSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>192</x>
+     <y>46</y>
+     <width>64</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>10</number>
+   </property>
+   <property name="maximum">
+    <number>25</number>
+   </property>
+   <property name="value">
+    <number>15</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="mineSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>192</x>
+     <y>70</y>
+     <width>64</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>1000</number>
+   </property>
+   <property name="value">
+    <number>10</number>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
