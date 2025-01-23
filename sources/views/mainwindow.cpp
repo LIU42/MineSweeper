@@ -35,7 +35,7 @@ MainWindow::~MainWindow()
     delete successDialog;
 }
 
-void MainWindow::initializeComponent()
+void MainWindow::initialize()
 {
     setupTimers();
     setupActions();
@@ -172,12 +172,10 @@ void MainWindow::updateInfo()
     if (gameFramework->getStatus() == GameStatus::PAUSE)
     {
         ui->pauseInfoLabel->show();
-        ui->timeValueLabel->hide();
     }
     else
     {
         ui->pauseInfoLabel->hide();
-        ui->timeValueLabel->show();
     }
     ui->remainValueLabel->setNum(gameFramework->getRemainFlagCount());
 }
