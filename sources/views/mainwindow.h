@@ -10,10 +10,10 @@
 #include "cores/framework.h"
 #include "utils/resources.h"
 
-#include "views/dialogs/aboutdialog.h"
-#include "views/dialogs/customdialog.h"
-#include "views/dialogs/rankdialog.h"
-#include "views/dialogs/successdialog.h"
+#include "views/aboutdialog.h"
+#include "views/customdialog.h"
+#include "views/rankdialog.h"
+#include "views/successdialog.h"
 
 QT_BEGIN_NAMESPACE
 

@@ -1,20 +1,20 @@
-# Mine Sweeper
+# MineSweeper 扫雷
 
-**C++ Qt 课程设计项目 Windows 经典扫雷小游戏**
+*<u>v1.5.0 新变化：调整项目结构，进一步优化交互界面。</u>*
 
 ## 项目简介
 
-本项目为一个基于 Qt 制作的仿 Windows 经典扫雷小游戏，具有如下基本功能：
+本项目为 C++ 课程设计，基于 Qt 制作的仿 Windows 经典扫雷小游戏，具有如下基本功能：
 
 * 不同的难度等级
 * 自定义游戏
 * 记录和排行榜
 * 作弊模式（在游戏中按下 Z 键）
 
-## 效果展示
+## 使用说明
 
-<img title="效果展示" src="resources/images/example.png" alt="效果展示" style="zoom:67%;" data-align="center">
+本项目目前基于 Qt 6.9.0 版本构建，使用 Qt Creator 编译运行即可。
 
-## 后续计划
+# 
 
-<u>*计划添加 AI 扫雷自动求解程序。*</u>
+

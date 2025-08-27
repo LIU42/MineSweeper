@@ -1,4 +1,4 @@
-#include "views/dialogs/successdialog.h"
+#include "views/successdialog.h"
 
 #include "ui_successdialog.h"
 

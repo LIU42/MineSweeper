@@ -15,37 +15,37 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-INCLUDEPATH += $$PWD/headers/
+INCLUDEPATH += $$PWD/sources/
 
 SOURCES += \
 	sources/cores/framework.cpp \
 	sources/cores/unit.cpp \
 	sources/main.cpp \
 	sources/utils/resources.cpp \
-	sources/views/dialogs/aboutdialog.cpp \
-	sources/views/dialogs/customdialog.cpp \
-	sources/views/dialogs/rankdialog.cpp \
-	sources/views/dialogs/successdialog.cpp \
+	sources/views/aboutdialog.cpp \
+	sources/views/customdialog.cpp \
+	sources/views/rankdialog.cpp \
+	sources/views/successdialog.cpp \
 	sources/views/mainwindow.cpp \
-	sources/views/widgets/scenewidget.cpp
+	sources/views/scenewidget.cpp
 
 HEADERS += \
-	headers/cores/framework.h \
-	headers/cores/unit.h \
-	headers/utils/constants.h \
-	headers/utils/resources.h \
-	headers/views/dialogs/aboutdialog.h \
-	headers/views/dialogs/customdialog.h \
-	headers/views/dialogs/rankdialog.h \
-	headers/views/dialogs/successdialog.h \
-	headers/views/mainwindow.h \
-	headers/views/widgets/scenewidget.h
+	sources/cores/framework.h \
+	sources/cores/unit.h \
+	sources/utils/constants.h \
+	sources/utils/resources.h \
+	sources/views/aboutdialog.h \
+	sources/views/customdialog.h \
+	sources/views/rankdialog.h \
+	sources/views/successdialog.h \
+	sources/views/mainwindow.h \
+	sources/views/scenewidget.h
 
 FORMS += \
-	forms/dialogs/aboutdialog.ui \
-	forms/dialogs/customdialog.ui \
-	forms/dialogs/rankdialog.ui \
-	forms/dialogs/successdialog.ui \
+	forms/aboutdialog.ui \
+	forms/customdialog.ui \
+	forms/rankdialog.ui \
+	forms/successdialog.ui \
 	forms/mainwindow.ui
 
 # Default rules for deployment.

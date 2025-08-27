@@ -1,4 +1,4 @@
-#include "views/dialogs/customdialog.h"
+#include "views/customdialog.h"
 
 #include "ui_customdialog.h"
 

@@ -1,4 +1,4 @@
-#include "views/widgets/scenewidget.h"
+#include "views/scenewidget.h"
 
 SceneWidget::SceneWidget(QWidget* parent): QWidget(parent)
 {

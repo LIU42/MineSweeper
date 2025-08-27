@@ -46,7 +46,7 @@ color: rgb(0, 0, 0);</string>
      <number>0</number>
     </property>
     <property name="sizeConstraint">
-     <enum>QLayout::SetDefaultConstraint</enum>
+     <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
     </property>
     <property name="leftMargin">
      <number>0</number>
@@ -66,7 +66,7 @@ color: rgb(0, 0, 0);</string>
        <number>0</number>
       </property>
       <property name="sizeConstraint">
-       <enum>QLayout::SetDefaultConstraint</enum>
+       <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
       </property>
       <property name="leftMargin">
        <number>12</number>
@@ -140,7 +140,7 @@ color: rgb(0, 0, 0);</string>
          </font>
         </property>
         <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+         <enum>Qt::LayoutDirection::LeftToRight</enum>
         </property>
         <property name="text">
          <string>999</string>
@@ -179,7 +179,7 @@ color: rgb(0, 0, 0);</string>
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -226,7 +226,7 @@ color: rgb(0, 0, 0);</string>
          <string>MINES:</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -369,7 +369,7 @@ color: rgb(0, 0, 0);</string>
   <customwidget>
    <class>SceneWidget</class>
    <extends>QWidget</extends>
-   <header>views/widgets/scenewidget.h</header>
+   <header>views/scenewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

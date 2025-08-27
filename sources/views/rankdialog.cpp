@@ -1,5 +1,5 @@
 #include "utils/constants.h"
-#include "views/dialogs/rankdialog.h"
+#include "views/rankdialog.h"
 
 #include "ui_rankdialog.h"
 
